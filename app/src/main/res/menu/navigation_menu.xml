@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/home"
+        android:id="@+id/movie"
         android:title="@string/movie"
         app:showAsAction="always"
         android:icon="@drawable/movie_icon" />
 
     <item
-        android:id="@+id/profile"
+        android:id="@+id/tvshow"
         android:title="@string/tv_show"
         app:showAsAction="always"
         android:icon="@drawable/tvshow_icon" />
