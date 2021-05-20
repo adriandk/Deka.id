@@ -19,7 +19,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/barColor"
+            android:background="@color/colorBlack"
             app:popupTheme="@style/Dekaid.PopupOverlay">
 
             <RelativeLayout
@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:menu="@menu/navigation_menu"
-        android:background="@color/barColor"
+        android:background="@color/colorBlack"
         app:itemIconTint="@drawable/navigation_color"
         app:itemTextColor="@drawable/navigation_color"
         app:layout_constraintBottom_toBottomOf="parent"

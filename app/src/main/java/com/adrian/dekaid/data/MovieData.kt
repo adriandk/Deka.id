@@ -1,7 +1,7 @@
 package com.adrian.dekaid.data
 
 import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class MovieData(
