@@ -42,6 +42,9 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
                     .load(dataMovie.movieImage)
                     .error(R.drawable.broken_image)
                     .into(movie_image)
+                button_detail.setOnClickListener {
+                    onItemClick?.invoke(movieList[adapterPosition])
+                }
             }
         }
 

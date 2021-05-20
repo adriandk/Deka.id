@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adrian.dekaid.R
 import com.adrian.dekaid.ui.detail.DetailActivity
+import com.adrian.dekaid.ui.detail.DetailViewModel.Companion.MOVIE
 import kotlinx.android.synthetic.main.fragment_movie.*
 
 class MovieFragment : Fragment() {
@@ -29,12 +30,15 @@ class MovieFragment : Fragment() {
                 this,
                 ViewModelProvider.NewInstanceFactory()
             )[MovieViewModel::class.java]
+
             val movie = viewModel.getMovie()
             val movieAdapter = MovieAdapter()
+
             movieAdapter.setShow(movie)
             movieAdapter.onItemClick = {
                 val intent = Intent(activity, DetailActivity::class.java)
-                intent.putExtra(DetailActivity.DATA_DETAIL, it.movieId)
+                intent.putExtra(DetailActivity.MOVIE_ID, it.movieId)
+                intent.putExtra(DetailActivity.MOVIE_CATEGORY, MOVIE)
                 startActivity(intent)
             }
 

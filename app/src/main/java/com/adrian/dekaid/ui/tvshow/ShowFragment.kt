@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adrian.dekaid.R
 import com.adrian.dekaid.ui.detail.DetailActivity
+import com.adrian.dekaid.ui.detail.DetailViewModel.Companion.TV_SHOW
 import kotlinx.android.synthetic.main.fragment_show.*
 
 class ShowFragment : Fragment() {
@@ -29,12 +30,15 @@ class ShowFragment : Fragment() {
                 this,
                 ViewModelProvider.NewInstanceFactory()
             )[ShowViewModel::class.java]
+
             val show = viewModel.getShow()
             val showAdapter = ShowAdapter()
+
             showAdapter.setShow(show)
             showAdapter.onItemClick = {
                 val intent = Intent(activity, DetailActivity::class.java)
-                intent.putExtra(DetailActivity.DATA_DETAIL, it.movieId)
+                intent.putExtra(DetailActivity.MOVIE_ID, it.movieId)
+                intent.putExtra(DetailActivity.MOVIE_CATEGORY, TV_SHOW)
                 startActivity(intent)
             }
 

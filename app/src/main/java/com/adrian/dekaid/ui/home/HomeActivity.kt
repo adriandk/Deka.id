@@ -13,7 +13,7 @@ class HomeActivity : AppCompatActivity() {
     private val movieFragment = MovieFragment()
     private val tvShowFragment = ShowFragment()
     private val fragmentManager = supportFragmentManager
-    var fragment: Fragment = movieFragment
+    private var fragment: Fragment = movieFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,11 +27,11 @@ class HomeActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.movie -> {
                     fragmentManager.beginTransaction().hide(fragment).show(movieFragment).commit()
-                    fragment = tvShowFragment
+                    fragment = movieFragment
                 }
                 R.id.tvshow -> {
                     fragmentManager.beginTransaction().hide(fragment).show(tvShowFragment).commit()
-                    fragment = movieFragment
+                    fragment = tvShowFragment
                 }
             }
             true

@@ -15,7 +15,7 @@
         <item name="android:navigationBarColor">@color/colorBlack</item>
     </style>
 
-    <style name="Dekaid.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="Dekaid.AppBarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />
 
     <style name="Dekaid.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
     
