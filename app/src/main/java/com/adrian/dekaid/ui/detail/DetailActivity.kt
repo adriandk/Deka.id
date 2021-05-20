@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.adrian.dekaid.R
 import com.adrian.dekaid.data.MovieData
+import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.content_detail.*
 
 class DetailActivity : AppCompatActivity() {
@@ -42,9 +44,9 @@ class DetailActivity : AppCompatActivity() {
         genre_detail.text = movies.movieGenre
         movie_sinopsis.text = movies.movieDescription
 
-//        Glide.with(this)
-//            .load(movies.movieImage)
-//            .error(R.drawable.broken_image)
-//            .into(image_detail)
+        Glide.with(this)
+            .load(movies.movieImage)
+            .error(R.drawable.broken_image)
+            .into(image_detail)
     }
 }
