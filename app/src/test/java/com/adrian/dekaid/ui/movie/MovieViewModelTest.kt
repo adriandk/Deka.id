@@ -14,6 +14,7 @@ class MovieViewModelTest {
         viewModel = MovieViewModel()
     }
 
+
     @Test
     fun getMovie() {
         val movieEntities = viewModel.getMovie()
