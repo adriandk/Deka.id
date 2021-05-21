@@ -1,9 +1,9 @@
 package com.adrian.dekaid.ui.splash
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import androidx.appcompat.app.AppCompatActivity
 import com.adrian.dekaid.R
 import com.adrian.dekaid.ui.home.HomeActivity
 

@@ -15,9 +15,9 @@
         <item name="android:navigationBarColor">@color/colorBlack</item>
     </style>
 
-    <style name="Dekaid.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="Dekaid.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Dekaid.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="Dekaid.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="ShapeAppearanceOverlay.App.CornerSize" parent="">
         <item name="cornerSize">10%</item>
