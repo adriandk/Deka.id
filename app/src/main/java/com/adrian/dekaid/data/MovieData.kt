@@ -11,5 +11,5 @@ data class MovieData(
     val movieGenre: String,
     val movieDescription: String,
     val movieReleaseYear: String,
-    val movieImage: Int,
+    val movieImage: Int
 ) : Parcelable

@@ -3,13 +3,14 @@ package com.adrian.dekaid.ui.detail
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.adrian.dekaid.R
 import com.adrian.dekaid.data.MovieData
+import com.adrian.dekaid.databinding.ActivityDetailBinding
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.content_detail.*
 
 class DetailActivity : AppCompatActivity() {
+
+    private lateinit var detailBinding: ActivityDetailBinding
 
     companion object {
         const val MOVIE_ID = "Movie ID"
@@ -18,7 +19,8 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+        detailBinding = ActivityDetailBinding.inflate(layoutInflater)
+        setContentView(detailBinding.root)
 
         val viewModel = ViewModelProvider(
             this,
@@ -46,7 +48,8 @@ class DetailActivity : AppCompatActivity() {
 
         Glide.with(this)
             .load(movies.movieImage)
-            .error(R.drawable.broken_image)
-            .into(image_detail)
+            .into(detailBinding.imageDetail)
+
+        detailBinding.imageDetail.tag = movies.movieImage
     }
 }

@@ -13,6 +13,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.adrian.dekaid.R
 import com.adrian.dekaid.utils.DataDummy
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
 import org.junit.Rule
 import org.junit.Test
@@ -50,6 +51,10 @@ class HomeActivityTest {
                 MyViewAction.clickChildViewWithId(R.id.button_detail)
             )
         )
+        onView(withId(R.id.image_detail)).check(matches(isDisplayed()))
+        onView(withId(R.id.image_detail)).check(matches(withTagValue(equalTo(dummyMovie[0].movieImage))))
+        onView(withId(R.id.collap_toolbar)).check(matches(isDisplayed()))
+        onView(withId(R.id.app_bar)).check(matches(isDisplayed()))
         onView(withId(R.id.movie_title_detail)).check(matches(isDisplayed()))
         onView(withId(R.id.movie_title_detail)).check(matches(withText(dummyMovie[0].movieTitle)))
         onView(withId(R.id.duration_detail)).check(matches(isDisplayed()))
@@ -87,6 +92,10 @@ class HomeActivityTest {
                 MyViewAction.clickChildViewWithId(R.id.button_detail)
             )
         )
+        onView(withId(R.id.image_detail)).check(matches(isDisplayed()))
+        onView(withId(R.id.image_detail)).check(matches(withTagValue(equalTo(dummyShow[0].movieImage))))
+        onView(withId(R.id.collap_toolbar)).check(matches(isDisplayed()))
+        onView(withId(R.id.app_bar)).check(matches(isDisplayed()))
         onView(withId(R.id.movie_title_detail)).check(matches(isDisplayed()))
         onView(withId(R.id.movie_title_detail)).check(matches(withText(dummyShow[0].movieTitle)))
         onView(withId(R.id.duration_detail)).check(matches(isDisplayed()))
