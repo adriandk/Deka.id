@@ -11,7 +11,7 @@ import com.adrian.dekaid.ui.home.HomeActivity
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        private const val splashTime = 2500
+        private const val splashTime: Long = 2500
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
