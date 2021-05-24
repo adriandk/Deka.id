@@ -9,6 +9,11 @@ import com.adrian.dekaid.ui.home.HomeActivity
 
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        private const val splashTime = 2500
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -16,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         Handler().postDelayed({
             startActivity(Intent(this, HomeActivity::class.java))
             finish()
-        }, 2500)
+        }, splashTime)
 
     }
 }
