@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adrian.dekaid.R
-import com.adrian.dekaid.data.MovieData
+import com.adrian.dekaid.data.source.model.MovieData
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.movie_item.view.*
 

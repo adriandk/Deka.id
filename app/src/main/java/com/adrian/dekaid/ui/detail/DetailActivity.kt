@@ -3,7 +3,7 @@ package com.adrian.dekaid.ui.detail
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.adrian.dekaid.data.MovieData
+import com.adrian.dekaid.data.source.model.MovieData
 import com.adrian.dekaid.databinding.ActivityDetailBinding
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.content_detail.*

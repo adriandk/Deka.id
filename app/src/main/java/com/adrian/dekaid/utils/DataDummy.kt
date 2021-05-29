@@ -1,7 +1,7 @@
 package com.adrian.dekaid.utils
 
 import com.adrian.dekaid.R
-import com.adrian.dekaid.data.MovieData
+import com.adrian.dekaid.data.source.model.MovieData
 
 
 object DataDummy {
