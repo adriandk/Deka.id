@@ -1,33 +1,26 @@
 package com.adrian.dekaid.ui.detail
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.adrian.dekaid.data.MovieRepository
 import com.adrian.dekaid.data.source.model.MovieData
-import com.adrian.dekaid.utils.DataDummy
 
-class DetailViewModel : ViewModel() {
+class DetailViewModel(private val movieRepository: MovieRepository) : ViewModel() {
 
     companion object {
         const val TV_SHOW = "tv show"
         const val MOVIE = "movie"
     }
 
-    private lateinit var movies: MovieData
+    private lateinit var movies: LiveData<MovieData>
 
-    fun getMovie(movieId: String, movieType: String) {
+    fun getMovie(movieId: Int, movieType: String) {
         when (movieType) {
-            TV_SHOW -> {
-                for (show in DataDummy.getShowData()) {
-                    if (show.movieId == movieId) {
-                        movies = show
-                    }
-                }
-            }
             MOVIE -> {
-                for (movie in DataDummy.getMovieData()) {
-                    if (movie.movieId == movieId) {
-                        movies = movie
-                    }
-                }
+                movies = movieRepository.loadDetailMovies(movieId)
+            }
+            TV_SHOW -> {
+                movies = movieRepository.loadDetailShow(movieId)
             }
         }
     }

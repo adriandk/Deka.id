@@ -8,6 +8,7 @@ import com.adrian.dekaid.data.source.MovieDataSource
 import com.adrian.dekaid.data.source.model.MovieData
 import com.adrian.dekaid.data.source.remote.network.ApiConfig
 import com.adrian.dekaid.data.source.remote.response.ListMovieResponse
+import com.adrian.dekaid.data.source.remote.response.MoviesResponse
 import com.adrian.dekaid.utils.DataMapper
 import com.adrian.dekaid.utils.EspressoIdlingResource
 import kotlinx.coroutines.CoroutineScope
@@ -22,6 +23,8 @@ class MovieRepository : MovieDataSource {
 
     private val listMovie = MutableLiveData<List<MovieData>>()
     private val listShow = MutableLiveData<List<MovieData>>()
+    private val detailMovie = MutableLiveData<MovieData>()
+    private val detailShow = MutableLiveData<MovieData>()
 
     companion object {
         const val TAG = "MOVIE_REPOSITORY"
@@ -83,4 +86,54 @@ class MovieRepository : MovieDataSource {
         }
         return listShow
     }
+
+    override fun loadDetailMovies(movieId: Int): LiveData<MovieData> {
+        EspressoIdlingResource.increment()
+        CoroutineScope(Dispatchers.IO).launch {
+            delay(TIME_IN_MILLIS)
+            ApiConfig.getApiService().getDetailMovie(movieId, API_KEY)
+                .enqueue(object : Callback<MoviesResponse> {
+                    override fun onResponse(
+                        call: Call<MoviesResponse>,
+                        response: Response<MoviesResponse>
+                    ) {
+                        val mapMovieDetail =
+                            response.body()?.let { DataMapper.mapToEntityMovie(it) }
+                        detailMovie.postValue(mapMovieDetail)
+                        EspressoIdlingResource.decrement()
+                    }
+
+                    override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
+                        Log.e(TAG, t.stackTraceToString())
+                    }
+
+                })
+        }
+        return detailMovie
+    }
+
+    override fun loadDetailShow(showId: Int): LiveData<MovieData> {
+        EspressoIdlingResource.increment()
+        CoroutineScope(Dispatchers.IO).launch {
+            delay(TIME_IN_MILLIS)
+            ApiConfig.getApiService().getDetailShow(showId, API_KEY)
+                .enqueue(object : Callback<MoviesResponse> {
+                    override fun onResponse(
+                        call: Call<MoviesResponse>,
+                        response: Response<MoviesResponse>
+                    ) {
+                        val mapShowDetail = response.body()?.let { DataMapper.mapToEntityShow(it) }
+                        detailShow.postValue(mapShowDetail)
+                        EspressoIdlingResource.decrement()
+                    }
+
+                    override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
+                        Log.e(TAG, t.stackTraceToString())
+                    }
+
+                })
+        }
+        return detailShow
+    }
+
 }

@@ -8,4 +8,8 @@ interface MovieDataSource {
     fun loadAllMovies(): LiveData<List<MovieData>>
 
     fun loadAllShow(): LiveData<List<MovieData>>
+
+    fun loadDetailMovies(movieId: Int): LiveData<MovieData>
+
+    fun loadDetailShow(showId: Int): LiveData<MovieData>
 }

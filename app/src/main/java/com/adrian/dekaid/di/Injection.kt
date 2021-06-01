@@ -1,3 +1,9 @@
 package com.adrian.dekaid.di
 
-object Injection
+import com.adrian.dekaid.data.MovieRepository
+
+object Injection {
+    fun provideRepository(): MovieRepository {
+        return MovieRepository.getInstance()
+    }
+}
