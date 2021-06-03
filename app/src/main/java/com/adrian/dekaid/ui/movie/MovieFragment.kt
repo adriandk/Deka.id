@@ -5,12 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adrian.dekaid.R
 import com.adrian.dekaid.ui.detail.DetailActivity
 import com.adrian.dekaid.ui.detail.DetailViewModel.Companion.MOVIE
+import com.adrian.dekaid.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_movie.*
 
 class MovieFragment : Fragment() {
@@ -26,26 +29,33 @@ class MovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
-            val viewModel = ViewModelProvider(
-                this,
-                ViewModelProvider.NewInstanceFactory()
-            )[MovieViewModel::class.java]
 
-            val movie = viewModel.getMovie()
+            val viewModel =
+                ViewModelProvider(this, ViewModelFactory.getInstance())[MovieViewModel::class.java]
             val movieAdapter = MovieAdapter()
 
-            movieAdapter.setShow(movie)
-            movieAdapter.onItemClick = {
-                val intent = Intent(activity, DetailActivity::class.java)
-                intent.putExtra(DetailActivity.MOVIE_ID, it.movieId)
-                intent.putExtra(DetailActivity.MOVIE_CATEGORY, MOVIE)
-                startActivity(intent)
-            }
+            progressBar(true)
+            viewModel.getMovie().observe(viewLifecycleOwner, {
+                progressBar(false)
+                movieAdapter.setMovie(it)
+                movieAdapter.onItemClick = {
+                    val intent = Intent(activity, DetailActivity::class.java)
+                    intent.putExtra(DetailActivity.MOVIE_ID, it.movieId)
+                    intent.putExtra(DetailActivity.MOVIE_CATEGORY, MOVIE)
+                    startActivity(intent)
+                }
+                movieAdapter.notifyDataSetChanged()
+            })
 
             rv_movie.layoutManager = LinearLayoutManager(context)
             rv_movie.setHasFixedSize(true)
             rv_movie.adapter = movieAdapter
         }
+    }
+
+    private fun progressBar(bar: Boolean) {
+        movie_bar.isVisible = bar
+        rv_movie.isInvisible = bar
     }
 
 }

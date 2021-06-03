@@ -2,10 +2,14 @@ package com.adrian.dekaid.ui.detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.adrian.dekaid.data.source.model.MovieData
 import com.adrian.dekaid.databinding.ActivityDetailBinding
+import com.adrian.dekaid.utils.Formatter
+import com.adrian.dekaid.viewmodel.ViewModelFactory
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.content_detail.*
 
 class DetailActivity : AppCompatActivity() {
@@ -24,32 +28,39 @@ class DetailActivity : AppCompatActivity() {
 
         val viewModel = ViewModelProvider(
             this,
-            ViewModelProvider.NewInstanceFactory()
+            ViewModelFactory.getInstance()
         )[DetailViewModel::class.java]
+
+        progressBar(true)
 
         val extras = intent.extras
         if (extras != null) {
-            val movieId = extras.getString(MOVIE_ID)
+            val movieId = extras.getInt(MOVIE_ID)
             val movieCategory = extras.getString(MOVIE_CATEGORY)
-            if (movieId != null) {
-                viewModel.getMovie(movieId, movieCategory.toString())
-                val movies = viewModel.getMovieDetail()
-                populateDataDetail(movies)
-            }
+            viewModel.getMovie(movieId, movieCategory.toString())
+            viewModel.getMovieDetail().observe(this, {
+                populateDataDetail(it)
+            })
         }
+    }
+
+    private fun progressBar(bar: Boolean) {
+        detail_bar.isVisible = bar
     }
 
     private fun populateDataDetail(movies: MovieData) {
         movie_title_detail.text = movies.movieTitle
-        duration_detail.text = movies.movieDuration
-        release_year.text = movies.movieReleaseYear
-        genre_detail.text = movies.movieGenre
+        duration_detail.text = movies.movieDuration.toString()
+        release_year.text = Formatter.getYear(movies.movieReleaseYear)
+        vote_detail.text = movies.movieVote.toString()
         movie_sinopsis.text = movies.movieDescription
 
         Glide.with(this)
-            .load(movies.movieImage)
+            .load(movies.posterLink)
             .into(detailBinding.imageDetail)
 
         detailBinding.imageDetail.tag = movies.movieImage
+
+        progressBar(false)
     }
 }

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adrian.dekaid.R
 import com.adrian.dekaid.data.source.model.MovieData
+import com.adrian.dekaid.utils.Formatter
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.movie_item.view.*
 
@@ -36,10 +37,10 @@ class ShowAdapter : RecyclerView.Adapter<ShowAdapter.ViewHolder>() {
         fun bind(dataShow: MovieData) {
             with(itemView) {
                 movie_title.text = dataShow.movieTitle
-                movie_genre.text = dataShow.movieGenre
-                movie_year.text = dataShow.movieReleaseYear
+                movie_vote.text = dataShow.movieVote.toString()
+                movie_year.text = Formatter.getYear(dataShow.movieReleaseYear)
                 Glide.with(itemView.context)
-                    .load(dataShow.movieImage)
+                    .load(dataShow.posterLink)
                     .error(R.drawable.broken_image)
                     .into(movie_image)
                 button_detail.setOnClickListener {

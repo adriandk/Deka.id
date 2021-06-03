@@ -5,12 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adrian.dekaid.R
 import com.adrian.dekaid.ui.detail.DetailActivity
 import com.adrian.dekaid.ui.detail.DetailViewModel.Companion.TV_SHOW
+import com.adrian.dekaid.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_show.*
 
 class ShowFragment : Fragment() {
@@ -28,24 +31,31 @@ class ShowFragment : Fragment() {
         if (activity != null) {
             val viewModel = ViewModelProvider(
                 this,
-                ViewModelProvider.NewInstanceFactory()
+                ViewModelFactory.getInstance()
             )[ShowViewModel::class.java]
-
-            val show = viewModel.getShow()
             val showAdapter = ShowAdapter()
 
-            showAdapter.setShow(show)
-            showAdapter.onItemClick = {
-                val intent = Intent(activity, DetailActivity::class.java)
-                intent.putExtra(DetailActivity.MOVIE_ID, it.movieId)
-                intent.putExtra(DetailActivity.MOVIE_CATEGORY, TV_SHOW)
-                startActivity(intent)
-            }
+            progressBar(true)
+            viewModel.getShow().observe(viewLifecycleOwner, {
+                showAdapter.setShow(it)
+                showAdapter.onItemClick = {
+                    val intent = Intent(activity, DetailActivity::class.java)
+                    intent.putExtra(DetailActivity.MOVIE_ID, it.movieId)
+                    intent.putExtra(DetailActivity.MOVIE_CATEGORY, TV_SHOW)
+                    startActivity(intent)
+                }
+                showAdapter.notifyDataSetChanged()
+            })
 
             rv_tvshow.layoutManager = LinearLayoutManager(context)
             rv_tvshow.setHasFixedSize(true)
             rv_tvshow.adapter = showAdapter
         }
+    }
+
+    private fun progressBar(bar: Boolean) {
+        show_bar.isVisible = bar
+        rv_tvshow.isInvisible = bar
     }
 
 }

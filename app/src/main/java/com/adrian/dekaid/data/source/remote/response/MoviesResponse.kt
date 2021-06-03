@@ -19,12 +19,18 @@ data class MoviesResponse(
     @field:SerializedName("release_date")
     val releasedDate: String,
 
+    @field:SerializedName("runtime")
+    val runtime: Int,
+
+    @field:SerializedName("number_of_seasons")
+    val showSeason: Int,
+
     @field:SerializedName("vote_average")
     val voteAverage: Double,
 
     @field:SerializedName("first_air_date")
     val firstAirDate: String,
 
-    @field:SerializedName("original_name")
+    @field:SerializedName("name")
     val originalName: String
 )

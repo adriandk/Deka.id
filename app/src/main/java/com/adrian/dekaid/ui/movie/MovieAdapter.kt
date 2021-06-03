@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.adrian.dekaid.R
 import com.adrian.dekaid.data.source.model.MovieData
+import com.adrian.dekaid.utils.Formatter
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.movie_item.view.*
 
@@ -15,7 +16,7 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
     var onItemClick: ((MovieData) -> Unit)? = null
     private var movieList = ArrayList<MovieData>()
 
-    fun setShow(movie: List<MovieData>?) {
+    fun setMovie(movie: List<MovieData>?) {
         if (movie == null) return
         this.movieList.clear()
         this.movieList.addAll(movie)
@@ -36,10 +37,10 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
         fun bind(dataMovie: MovieData) {
             with(itemView) {
                 movie_title.text = dataMovie.movieTitle
-                movie_genre.text = dataMovie.movieGenre
-                movie_year.text = dataMovie.movieReleaseYear
+                movie_vote.text = dataMovie.movieVote.toString()
+                movie_year.text = Formatter.getYear(dataMovie.movieReleaseYear)
                 Glide.with(itemView.context)
-                    .load(dataMovie.movieImage)
+                    .load(dataMovie.posterLink)
                     .error(R.drawable.broken_image)
                     .into(movie_image)
                 button_detail.setOnClickListener {

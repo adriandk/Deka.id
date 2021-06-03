@@ -11,6 +11,8 @@ data class MovieData(
     val movieDescription: String,
     val movieReleaseYear: String,
     val movieImage: String,
+    val movieDuration: Int,
+    val showSeason: Int,
     val movieFirstAir: String,
     val movieName: String,
     val posterLink: String = "https://image.tmdb.org/t/p/w500/$movieImage"
