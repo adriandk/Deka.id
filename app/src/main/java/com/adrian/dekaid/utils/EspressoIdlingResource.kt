@@ -1,6 +1,5 @@
 package com.adrian.dekaid.utils
 
-import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.idling.CountingIdlingResource
 
 object EspressoIdlingResource {
@@ -10,6 +9,5 @@ object EspressoIdlingResource {
 
     fun increment() = espressoTestIdlingResource.increment()
     fun decrement() = espressoTestIdlingResource.decrement()
-    fun espressoIdlingResource(): IdlingResource = espressoTestIdlingResource
 
 }

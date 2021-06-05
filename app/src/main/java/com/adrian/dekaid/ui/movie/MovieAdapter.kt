@@ -1,5 +1,6 @@
 package com.adrian.dekaid.ui.movie
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +37,7 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(dataMovie: MovieData) {
             with(itemView) {
+                Log.e("adapter", "data in adapter going to recycler view")
                 movie_title.text = dataMovie.movieTitle
                 movie_vote.text = dataMovie.movieVote.toString()
                 movie_year.text = Formatter.getYear(dataMovie.movieReleaseYear)

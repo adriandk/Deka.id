@@ -28,7 +28,7 @@ class MovieRepository : MovieDataSource {
 
     companion object {
         const val TAG = "MOVIE_REPOSITORY"
-        private const val TIME_IN_MILLIS: Long = 1500
+        private const val TIME_IN_MILLIS: Long = 2000
         internal const val API_KEY = BuildConfig.API_KEY
 
         @Volatile
@@ -39,19 +39,29 @@ class MovieRepository : MovieDataSource {
         }
     }
 
+
     override fun loadAllMovies(): LiveData<List<MovieData>> {
         EspressoIdlingResource.increment()
         CoroutineScope(Dispatchers.IO).launch {
             delay(TIME_IN_MILLIS)
+
             ApiConfig.getApiService().getAllMovies(API_KEY)
                 .enqueue(object : Callback<ListMovieResponse> {
                     override fun onResponse(
                         call: Call<ListMovieResponse>,
                         response: Response<ListMovieResponse>
                     ) {
-                        val listMapMovie =
-                            response.body()?.movies?.let { DataMapper.movieMapFromEntityList(it) }
-                        listMovie.postValue(listMapMovie)
+                        val listMapMovie = response.body()?.movies?.let {
+                            DataMapper.movieMapFromEntityList(it)
+                        }
+
+                        Log.e(TAG, listMapMovie.toString())
+
+                        if (listMapMovie != null) {
+                            listMovie.postValue(listMapMovie)
+                        } else {
+                            Log.e(TAG, "data null")
+                        }
                         EspressoIdlingResource.decrement()
                     }
 
@@ -60,6 +70,7 @@ class MovieRepository : MovieDataSource {
                     }
                 })
         }
+
         return listMovie
     }
 

@@ -13,7 +13,7 @@ object DataMapper {
             movieVote = entity.voteAverage,
             movieImage = entity.posterPath,
             movieReleaseYear = entity.releasedDate,
-            movieDuration = 0,
+            movieDuration = entity.runtime,
             showSeason = 0,
             movieName = "",
             movieFirstAir = ""
@@ -29,7 +29,7 @@ object DataMapper {
             movieImage = entity.posterPath,
             movieReleaseYear = "",
             movieDuration = 0,
-            showSeason = 0,
+            showSeason = entity.showSeason,
             movieName = entity.originalName,
             movieFirstAir = entity.firstAirDate
         )
@@ -65,11 +65,11 @@ object DataMapper {
         )
     }
 
-    fun movieMapFromEntityList(entity: List<MoviesResponse>): List<MovieData> {
-        return entity.map { mapFromEntityMovie(it) }
+    fun movieMapFromEntityList(entity: ArrayList<MoviesResponse>): ArrayList<MovieData> {
+        return entity.map { mapFromEntityMovie(it) } as ArrayList<MovieData>
     }
 
-    fun showMapFromEntityList(entity: List<MoviesResponse>): List<MovieData> {
-        return entity.map { mapFromEntityShow(it) }
+    fun showMapFromEntityList(entity: ArrayList<MoviesResponse>): ArrayList<MovieData> {
+        return entity.map { mapFromEntityShow(it) } as ArrayList<MovieData>
     }
 }
