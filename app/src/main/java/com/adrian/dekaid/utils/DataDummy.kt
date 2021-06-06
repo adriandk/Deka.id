@@ -91,7 +91,6 @@ object DataDummy {
 
     fun getRemoteMovie(): List<MoviesResponse> {
         val imageUrl = "https://image.tmdb.org/t/p/w500"
-
         return listOf(
             MoviesResponse(
                 503736,
