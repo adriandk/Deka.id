@@ -2,7 +2,9 @@ package com.adrian.dekaid.ui.home
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions
@@ -10,21 +12,33 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.adrian.dekaid.R
 import com.adrian.dekaid.utils.DataDummy
+import com.adrian.dekaid.utils.EspressoIdlingResource
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.Matcher
-import org.junit.Rule
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(AndroidJUnit4ClassRunner::class)
 class HomeActivityTest {
 
     private val dummyMovie = DataDummy.getMovieData()
     private val dummyShow = DataDummy.getShowData()
 
-    @get:Rule
-    var activityRule = ActivityScenarioRule(HomeActivity::class.java)
+    @Before
+    fun setUp() {
+        ActivityScenario.launch(HomeActivity::class.java)
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.espressoTestIdlingResource)
+    }
+
+    @After
+    fun tearDown() {
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.espressoTestIdlingResource)
+    }
 
     @Test
     fun loadMovie() {
@@ -58,9 +72,9 @@ class HomeActivityTest {
         onView(withId(R.id.movie_title_detail)).check(matches(isDisplayed()))
         onView(withId(R.id.movie_title_detail)).check(matches(withText(dummyMovie[0].movieTitle)))
         onView(withId(R.id.duration_detail)).check(matches(isDisplayed()))
-        onView(withId(R.id.duration_detail)).check(matches(withText(dummyMovie[0].movieDuration)))
-        onView(withId(R.id.genre_detail)).check(matches(isDisplayed()))
-        onView(withId(R.id.genre_detail)).check(matches(withText(dummyMovie[0].movieGenre)))
+        onView(withId(R.id.duration_detail)).check(matches(withText("${dummyMovie[0].movieDuration} min")))
+        onView(withId(R.id.vote_detail)).check(matches(isDisplayed()))
+        onView(withId(R.id.vote_detail)).check(matches(withText("${dummyMovie[0].movieVote}")))
         onView(withId(R.id.release_year)).check(matches(isDisplayed()))
         onView(withId(R.id.release_year)).check(matches(withText(dummyMovie[0].movieReleaseYear)))
     }
@@ -97,13 +111,13 @@ class HomeActivityTest {
         onView(withId(R.id.collap_toolbar)).check(matches(isDisplayed()))
         onView(withId(R.id.app_bar)).check(matches(isDisplayed()))
         onView(withId(R.id.movie_title_detail)).check(matches(isDisplayed()))
-        onView(withId(R.id.movie_title_detail)).check(matches(withText(dummyShow[0].movieTitle)))
+        onView(withId(R.id.movie_title_detail)).check(matches(withText(dummyShow[0].movieName)))
         onView(withId(R.id.duration_detail)).check(matches(isDisplayed()))
-        onView(withId(R.id.duration_detail)).check(matches(withText(dummyShow[0].movieDuration)))
-        onView(withId(R.id.genre_detail)).check(matches(isDisplayed()))
-        onView(withId(R.id.genre_detail)).check(matches(withText(dummyShow[0].movieGenre)))
+        onView(withId(R.id.duration_detail)).check(matches(withText("${dummyShow[0].showSeason} seasons")))
+        onView(withId(R.id.vote_detail)).check(matches(isDisplayed()))
+        onView(withId(R.id.vote_detail)).check(matches(withText(dummyShow[0].movieVote.toString())))
         onView(withId(R.id.release_year)).check(matches(isDisplayed()))
-        onView(withId(R.id.release_year)).check(matches(withText(dummyShow[0].movieReleaseYear)))
+        onView(withId(R.id.release_year)).check(matches(withText(dummyShow[0].movieFirstAir)))
     }
 
     object MyViewAction {

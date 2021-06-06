@@ -3,7 +3,6 @@ package com.adrian.dekaid.ui.detail
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.adrian.dekaid.R
@@ -68,11 +67,10 @@ class DetailActivity : AppCompatActivity() {
             .error(R.drawable.broken_image)
             .into(detailBinding.imageDetail)
 
-        detailBinding.imageDetail.tag = movies.movieImage
+        detailBinding.imageDetail.tag = movies.posterLink
     }
 
     private fun progressBar(bar: Boolean) {
         detail_bar.isVisible = bar
-        movie_detail.isInvisible = bar
     }
 }
