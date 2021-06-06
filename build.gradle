@@ -45,4 +45,5 @@ ext {
     loggingInterceptorVersion = '4.9.0'
     coroutineVersion = "1.4.1"
     shimmer_version = "0.5.0"
+    googleTruthVersion = '1.0.1'
 }

@@ -68,6 +68,8 @@ dependencies {
     testImplementation "org.mockito:mockito-inline:$mockitoVersion"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
     testImplementation "androidx.arch.core:core-testing:$androidCoreTestVersion"
+    testImplementation "com.google.truth:truth:$googleTruthVersion"
+    androidTestImplementation "com.google.truth:truth:$googleTruthVersion"
 
     implementation "com.facebook.shimmer:shimmer:$shimmer_version"
 }
