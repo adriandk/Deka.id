@@ -2,6 +2,7 @@ package com.adrian.dekaid.ui.movie
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,15 +29,15 @@ class MovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
-            val viewModel =
-                ViewModelProvider(
-                    this,
-                    ViewModelFactory.getInstance()
-                ).get(MovieViewModel::class.java)
+            val viewModel = ViewModelProvider(
+                this,
+                ViewModelFactory.getInstance()
+            ).get(MovieViewModel::class.java)
             val movieAdapter = MovieAdapter()
 
             progressBar(true)
             viewModel.getMovie().observe(viewLifecycleOwner, {
+                Log.e("movie fragment", "data going to adapter")
                 progressBar(false)
                 movieAdapter.setMovie(it)
                 movieAdapter.onItemClick = {

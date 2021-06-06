@@ -95,6 +95,18 @@
             app:layout_constraintTop_toBottomOf="@+id/movie_title_detail"
             app:layout_constraintVertical_bias="0.0" />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/star_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/vote_detail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/vote_detail"
+            app:layout_constraintTop_toTopOf="@+id/vote_detail"
+            app:layout_constraintVertical_bias="0.0" />
+
         <View
             android:id="@+id/view3"
             android:layout_width="match_parent"

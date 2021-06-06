@@ -9,6 +9,7 @@ import com.adrian.dekaid.R
 import com.adrian.dekaid.data.source.model.MovieData
 import com.adrian.dekaid.utils.Formatter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.movie_item.view.*
 
 @Suppress("DEPRECATION")
@@ -37,12 +38,13 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(dataMovie: MovieData) {
             with(itemView) {
-                Log.e("adapter", "data in adapter going to recycler view")
+                Log.e("movie adapter", "data in adapter going to recycler view")
                 movie_title.text = dataMovie.movieTitle
                 movie_vote.text = dataMovie.movieVote.toString()
                 movie_year.text = Formatter.getYear(dataMovie.movieReleaseYear)
                 Glide.with(itemView.context)
                     .load(dataMovie.posterLink)
+                    .apply(RequestOptions.placeholderOf(R.drawable.image_icon))
                     .error(R.drawable.broken_image)
                     .into(movie_image)
                 button_detail.setOnClickListener {

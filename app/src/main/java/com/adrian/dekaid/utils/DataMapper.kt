@@ -65,11 +65,11 @@ object DataMapper {
         )
     }
 
-    fun movieMapFromEntityList(entity: ArrayList<MoviesResponse>): ArrayList<MovieData> {
-        return entity.map { mapFromEntityMovie(it) } as ArrayList<MovieData>
+    fun movieMapFromEntityList(entity: List<MoviesResponse>): List<MovieData> {
+        return entity.map { mapFromEntityMovie(it) }
     }
 
-    fun showMapFromEntityList(entity: ArrayList<MoviesResponse>): ArrayList<MovieData> {
-        return entity.map { mapFromEntityShow(it) } as ArrayList<MovieData>
+    fun showMapFromEntityList(entity: List<MoviesResponse>): List<MovieData> {
+        return entity.map { mapFromEntityShow(it) }
     }
 }

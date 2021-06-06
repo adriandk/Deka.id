@@ -54,13 +54,8 @@ class MovieRepository : MovieDataSource {
                         val listMapMovie = response.body()?.movies?.let {
                             DataMapper.movieMapFromEntityList(it)
                         }
-
-                        Log.e(TAG, listMapMovie.toString())
-
                         if (listMapMovie != null) {
                             listMovie.postValue(listMapMovie)
-                        } else {
-                            Log.e(TAG, "data null")
                         }
                         EspressoIdlingResource.decrement()
                     }
@@ -86,7 +81,12 @@ class MovieRepository : MovieDataSource {
                     ) {
                         val listMapShow =
                             response.body()?.movies?.let { DataMapper.showMapFromEntityList(it) }
-                        listShow.postValue(listMapShow)
+
+                        if (listMapShow != null) {
+                            listShow.postValue(listMapShow)
+                        } else {
+                            Log.e(TAG, "data null")
+                        }
                         EspressoIdlingResource.decrement()
                     }
 
@@ -110,7 +110,9 @@ class MovieRepository : MovieDataSource {
                     ) {
                         val mapMovieDetail =
                             response.body()?.let { DataMapper.mapToEntityMovie(it) }
-                        detailMovie.postValue(mapMovieDetail)
+                        if (mapMovieDetail != null) {
+                            detailMovie.postValue(mapMovieDetail)
+                        }
                         EspressoIdlingResource.decrement()
                     }
 
@@ -134,7 +136,9 @@ class MovieRepository : MovieDataSource {
                         response: Response<MoviesResponse>
                     ) {
                         val mapShowDetail = response.body()?.let { DataMapper.mapToEntityShow(it) }
-                        detailShow.postValue(mapShowDetail)
+                        if (mapShowDetail != null) {
+                            detailShow.postValue(mapShowDetail)
+                        }
                         EspressoIdlingResource.decrement()
                     }
 

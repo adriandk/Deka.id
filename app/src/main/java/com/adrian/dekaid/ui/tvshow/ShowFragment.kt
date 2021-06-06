@@ -2,10 +2,10 @@ package com.adrian.dekaid.ui.tvshow
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -37,6 +37,8 @@ class ShowFragment : Fragment() {
 
             progressBar(true)
             viewModel.getShow().observe(viewLifecycleOwner, {
+                Log.e("show fragment", "data going to adapter")
+                progressBar(false)
                 showAdapter.setShow(it)
                 showAdapter.onItemClick = {
                     val intent = Intent(activity, DetailActivity::class.java)
@@ -55,7 +57,6 @@ class ShowFragment : Fragment() {
 
     private fun progressBar(bar: Boolean) {
         show_bar.isVisible = bar
-        rv_tvshow.isInvisible = bar
     }
 
 }
