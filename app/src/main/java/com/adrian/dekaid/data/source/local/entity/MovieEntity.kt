@@ -15,7 +15,7 @@ data class MovieEntity(
     @ColumnInfo(name = "movieTitle")
     var movieTitle: String,
 
-    @ColumnInfo(name = "movieVote")
+    @ColumnInfo(name = "fansVote")
     var movieVote: Double,
 
     @ColumnInfo(name = "movieDescription")

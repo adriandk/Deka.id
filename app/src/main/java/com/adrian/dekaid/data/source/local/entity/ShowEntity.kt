@@ -15,7 +15,7 @@ data class ShowEntity(
     @ColumnInfo(name = "showName")
     var showName: String,
 
-    @ColumnInfo(name = "showVote")
+    @ColumnInfo(name = "fansVote")
     var showVote: Double,
 
     @ColumnInfo(name = "showDescription")
