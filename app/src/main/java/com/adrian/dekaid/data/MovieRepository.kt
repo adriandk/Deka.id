@@ -39,7 +39,6 @@ class MovieRepository : MovieDataSource {
         }
     }
 
-
     override fun loadAllMovies(): LiveData<List<MovieData>> {
         EspressoIdlingResource.increment()
         CoroutineScope(Dispatchers.IO).launch {
