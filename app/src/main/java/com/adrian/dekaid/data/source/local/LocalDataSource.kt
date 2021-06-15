@@ -5,7 +5,8 @@ import com.adrian.dekaid.data.source.local.entity.MovieEntity
 import com.adrian.dekaid.data.source.local.entity.ShowEntity
 import com.adrian.dekaid.data.source.local.room.MovieDao
 import com.adrian.dekaid.utils.SortUtils
-import com.adrian.dekaid.utils.SortUtils.MOVIE_ENTITIES
+import com.adrian.dekaid.utils.SortUtils.MOVIE_TABLE
+import com.adrian.dekaid.utils.SortUtils.SHOW_TABLE
 
 class LocalDataSource(private val movieDao: MovieDao) {
     companion object {
@@ -16,8 +17,21 @@ class LocalDataSource(private val movieDao: MovieDao) {
         }
     }
 
-    fun getAllMovie(sort: String): DataSource.Factory<Int, MovieEntity> =
-        movieDao.getMovie(SortUtils.getSortedQuery(sort, MOVIE_ENTITIES))
+    fun getAllMovie(sort: String): DataSource.Factory<Int, MovieEntity> {
+        return movieDao.getMovie(SortUtils.getSortedQuery(sort, MOVIE_TABLE))
+    }
+
+    fun getAllShow(sort: String): DataSource.Factory<Int, ShowEntity> {
+        return movieDao.getShow(SortUtils.getSortedQuery(sort, SHOW_TABLE))
+    }
+
+    fun getFavoriteMovie(): DataSource.Factory<Int, MovieEntity> {
+        return movieDao.getFavoriteMovie()
+    }
+
+    fun getFavoriteShow(): DataSource.Factory<Int, ShowEntity> {
+        return movieDao.getFavoriteShow()
+    }
 
     fun insertMovie(movie: List<MovieEntity>) {
         movieDao.insertMovies(movie)
