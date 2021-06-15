@@ -29,4 +29,7 @@ data class ShowEntity(
 
     @ColumnInfo(name = "showSeason")
     var showSeason: Int,
+
+    @ColumnInfo(name = "isFavorite")
+    var isFavorite: Boolean = false
 )

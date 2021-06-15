@@ -29,4 +29,7 @@ data class MovieEntity(
 
     @ColumnInfo(name = "movieDuration")
     var movieDuration: Int,
+
+    @ColumnInfo(name = "isFavorite")
+    var isFavorite: Boolean = false
 )
