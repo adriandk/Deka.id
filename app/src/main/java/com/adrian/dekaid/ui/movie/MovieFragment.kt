@@ -18,7 +18,6 @@ import com.adrian.dekaid.ui.detail.DetailViewModel.Companion.MOVIE
 import com.adrian.dekaid.utils.SortUtils.NEWEST
 import com.adrian.dekaid.utils.SortUtils.OLDEST
 import com.adrian.dekaid.viewmodel.ViewModelFactory
-import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_movie.*
 
 class MovieFragment : Fragment() {
@@ -61,6 +60,7 @@ class MovieFragment : Fragment() {
                 is Resource.Success -> {
                     progressBar(false)
                     movieAdapter.submitList(it.data)
+                    movieAdapter.setData(it.data)
                     movieAdapter.notifyDataSetChanged()
                     movieAdapter.onItemClick = {
                         val intent = Intent(activity, DetailActivity::class.java)

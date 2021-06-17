@@ -19,6 +19,13 @@ class MovieAdapter : PagedListAdapter<MovieEntity, MovieAdapter.ViewHolder>(DIFF
     var onItemClick: ((MovieEntity) -> Unit)? = null
     private var movieList = ArrayList<MovieEntity>()
 
+    fun setData(newListData: List<MovieEntity>?) {
+        if (newListData == null) return
+        movieList.clear()
+        movieList.addAll(newListData)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_item, parent, false)
         return ViewHolder(view)

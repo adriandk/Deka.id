@@ -2,7 +2,10 @@ package com.adrian.dekaid.ui.detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.adrian.dekaid.R
 import com.adrian.dekaid.databinding.ActivityDetailBinding
+import kotlinx.android.synthetic.main.content_detail.*
 
 class DetailActivity : AppCompatActivity() {
 
@@ -17,6 +20,10 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         detailBinding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(detailBinding.root)
+
+        favorite_button.setOnClickListener {
+            setStatusFavorite(true)
+        }
 
 //        val viewModel = ViewModelProvider(
 //            this,
@@ -62,4 +69,13 @@ class DetailActivity : AppCompatActivity() {
 //    private fun progressBar(bar: Boolean) {
 //        detail_bar.isVisible = bar
 //    }
+
+    private fun setStatusFavorite(statusFavorite: Boolean) {
+        if (statusFavorite) {
+            favorite_button.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.favorite_icon))
+        } else {
+            favorite_button.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.favorite_outline_icon))
+        }
+    }
+
 }

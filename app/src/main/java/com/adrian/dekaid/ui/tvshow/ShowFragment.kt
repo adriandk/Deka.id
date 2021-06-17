@@ -59,6 +59,7 @@ class ShowFragment : Fragment() {
                 is Resource.Success -> {
                     progressBar(false)
                     showAdapter.submitList(it.data)
+                    showAdapter.setData(it.data)
                     showAdapter.notifyDataSetChanged()
                     showAdapter.onItemClick = {
                         val intent = Intent(activity, DetailActivity::class.java)

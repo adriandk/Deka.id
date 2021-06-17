@@ -19,6 +19,14 @@ class ShowAdapter : PagedListAdapter<ShowEntity, ShowAdapter.ViewHolder>(DIFF_CA
     var onItemClick: ((ShowEntity) -> Unit)? = null
     private var showList = ArrayList<ShowEntity>()
 
+    fun setData(newListData: List<ShowEntity>?) {
+        if (newListData == null) return
+        showList.clear()
+        showList.addAll(newListData)
+        notifyDataSetChanged()
+    }
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_item, parent, false)
         return ViewHolder(view)
