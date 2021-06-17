@@ -1,153 +1,126 @@
 package com.adrian.dekaid.data
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.adrian.dekaid.BuildConfig
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.adrian.dekaid.data.source.MovieDataSource
-import com.adrian.dekaid.data.source.model.MovieData
-import com.adrian.dekaid.data.source.remote.network.ApiConfig
-import com.adrian.dekaid.data.source.remote.response.ListMovieResponse
+import com.adrian.dekaid.data.source.local.LocalDataSource
+import com.adrian.dekaid.data.source.local.entity.MovieEntity
+import com.adrian.dekaid.data.source.local.entity.ShowEntity
+import com.adrian.dekaid.data.source.remote.ApiResponse
+import com.adrian.dekaid.data.source.remote.RemoteDataSource
+import com.adrian.dekaid.data.source.remote.Resource
 import com.adrian.dekaid.data.source.remote.response.MoviesResponse
+import com.adrian.dekaid.utils.AppExecutors
 import com.adrian.dekaid.utils.DataMapper
-import com.adrian.dekaid.utils.EspressoIdlingResource
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class MovieRepository : MovieDataSource {
-
-    private val listMovie = MutableLiveData<List<MovieData>>()
-    private val listShow = MutableLiveData<List<MovieData>>()
-    private val detailMovie = MutableLiveData<MovieData>()
-    private val detailShow = MutableLiveData<MovieData>()
+@Suppress("DEPRECATION")
+class MovieRepository private constructor(
+    private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: LocalDataSource,
+    private val appExecutors: AppExecutors
+) : MovieDataSource {
 
     companion object {
-        const val TAG = "MOVIE_REPOSITORY"
-        private const val TIME_IN_MILLIS: Long = 2000
-        internal const val API_KEY = BuildConfig.API_KEY
-
         @Volatile
         private var instance: MovieRepository? = null
 
-        fun getInstance(): MovieRepository = instance ?: synchronized(this) {
-            instance ?: MovieRepository()
+        fun getInstance(
+            remoteData: RemoteDataSource,
+            localData: LocalDataSource,
+            appExecutors: AppExecutors
+        ): MovieRepository =
+            instance ?: synchronized(this) {
+                instance ?: MovieRepository(remoteData, localData, appExecutors)
+            }
+    }
+
+    override fun loadAllMovies(sort: String): LiveData<Resource<PagedList<MovieEntity>>> {
+        return object :
+            NetworkBoundResource<PagedList<MovieEntity>, List<MoviesResponse>>(appExecutors) {
+            override fun loadFromDB(): LiveData<PagedList<MovieEntity>> {
+                val config = PagedList.Config.Builder()
+                    .setEnablePlaceholders(false)
+                    .setInitialLoadSizeHint(4)
+                    .setPageSize(4)
+                    .build()
+
+                return LivePagedListBuilder(localDataSource.getAllMovie(sort), config).build()
+            }
+
+            override fun shouldFetch(data: PagedList<MovieEntity>?): Boolean =
+                data == null || data.isEmpty()
+
+            override fun createCall(): LiveData<ApiResponse<List<MoviesResponse>>> {
+                return remoteDataSource.getAllMovie()
+            }
+
+            override fun saveCallResult(data: List<MoviesResponse>) {
+                val movieList = DataMapper.mapFromResponseToEntitiesMovie(data)
+                localDataSource.insertMovie(movieList)
+            }
+        }.asLiveData()
+    }
+
+    override fun loadAllShow(sort: String): LiveData<Resource<PagedList<ShowEntity>>> {
+
+        return object :
+            NetworkBoundResource<PagedList<ShowEntity>, List<MoviesResponse>>(appExecutors) {
+
+            override fun loadFromDB(): LiveData<PagedList<ShowEntity>> {
+                val config = PagedList.Config.Builder()
+                    .setEnablePlaceholders(false)
+                    .setInitialLoadSizeHint(4)
+                    .setPageSize(4)
+                    .build()
+
+                return LivePagedListBuilder(localDataSource.getAllShow(sort), config).build()
+            }
+
+            override fun shouldFetch(data: PagedList<ShowEntity>?): Boolean =
+                data == null || data.isEmpty()
+
+            override fun createCall(): LiveData<ApiResponse<List<MoviesResponse>>> {
+                return remoteDataSource.getAllShow()
+            }
+
+            override fun saveCallResult(data: List<MoviesResponse>) {
+                val showList = DataMapper.mapFromResponseToEntitiesShow(data)
+                localDataSource.insertShow(showList)
+            }
+
+        }.asLiveData()
+    }
+
+    override fun setFavoriteMovie(movie: MovieEntity, state: Boolean) {
+        appExecutors.diskIO().execute {
+            localDataSource.setFavoriteMovie(movie, state)
         }
     }
 
-    override fun loadAllMovies(): LiveData<List<MovieData>> {
-        EspressoIdlingResource.increment()
-        CoroutineScope(Dispatchers.IO).launch {
-            delay(TIME_IN_MILLIS)
-
-            ApiConfig.getApiService().getAllMovies(API_KEY)
-                .enqueue(object : Callback<ListMovieResponse> {
-                    override fun onResponse(
-                        call: Call<ListMovieResponse>,
-                        response: Response<ListMovieResponse>
-                    ) {
-                        val listMapMovie = response.body()?.movies?.let {
-                            DataMapper.movieMapFromEntityList(it)
-                        }
-                        if (listMapMovie != null) {
-                            listMovie.postValue(listMapMovie)
-                        }
-                        EspressoIdlingResource.decrement()
-                    }
-
-                    override fun onFailure(call: Call<ListMovieResponse>, t: Throwable) {
-                        Log.e(TAG, t.stackTraceToString())
-                    }
-                })
+    override fun setFavoriteShow(show: ShowEntity, state: Boolean) {
+        appExecutors.diskIO().execute {
+            localDataSource.setFavoriteShow(show, state)
         }
-
-        return listMovie
     }
 
-    override fun loadAllShow(): LiveData<List<MovieData>> {
-        EspressoIdlingResource.increment()
-        CoroutineScope(Dispatchers.IO).launch {
-            delay(TIME_IN_MILLIS)
-            ApiConfig.getApiService().getAllShow(API_KEY)
-                .enqueue(object : Callback<ListMovieResponse> {
-                    override fun onResponse(
-                        call: Call<ListMovieResponse>,
-                        response: Response<ListMovieResponse>
-                    ) {
-                        val listMapShow =
-                            response.body()?.movies?.let { DataMapper.showMapFromEntityList(it) }
+    override fun getFavoriteMovie(): LiveData<PagedList<MovieEntity>> {
+        val config = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setInitialLoadSizeHint(4)
+            .setPageSize(4)
+            .build()
 
-                        if (listMapShow != null) {
-                            listShow.postValue(listMapShow)
-                        } else {
-                            Log.e(TAG, "data null")
-                        }
-                        EspressoIdlingResource.decrement()
-                    }
-
-                    override fun onFailure(call: Call<ListMovieResponse>, t: Throwable) {
-                        Log.e(TAG, t.stackTraceToString())
-                    }
-                })
-        }
-        return listShow
+        return LivePagedListBuilder(localDataSource.getFavoriteMovie(), config).build()
     }
 
-    override fun loadDetailMovies(movieId: Int): LiveData<MovieData> {
-        EspressoIdlingResource.increment()
-        CoroutineScope(Dispatchers.IO).launch {
-            delay(TIME_IN_MILLIS)
-            ApiConfig.getApiService().getDetailMovie(movieId, API_KEY)
-                .enqueue(object : Callback<MoviesResponse> {
-                    override fun onResponse(
-                        call: Call<MoviesResponse>,
-                        response: Response<MoviesResponse>
-                    ) {
-                        val mapMovieDetail =
-                            response.body()?.let { DataMapper.mapToEntityMovie(it) }
-                        if (mapMovieDetail != null) {
-                            detailMovie.postValue(mapMovieDetail)
-                        }
-                        EspressoIdlingResource.decrement()
-                    }
+    override fun getFavoriteShow(): LiveData<PagedList<ShowEntity>> {
+        val config = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setInitialLoadSizeHint(4)
+            .setPageSize(4)
+            .build()
 
-                    override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
-                        Log.e(TAG, t.stackTraceToString())
-                    }
-
-                })
-        }
-        return detailMovie
+        return LivePagedListBuilder(localDataSource.getFavoriteShow(), config).build()
     }
-
-    override fun loadDetailShow(showId: Int): LiveData<MovieData> {
-        EspressoIdlingResource.increment()
-        CoroutineScope(Dispatchers.IO).launch {
-            delay(TIME_IN_MILLIS)
-            ApiConfig.getApiService().getDetailShow(showId, API_KEY)
-                .enqueue(object : Callback<MoviesResponse> {
-                    override fun onResponse(
-                        call: Call<MoviesResponse>,
-                        response: Response<MoviesResponse>
-                    ) {
-                        val mapShowDetail = response.body()?.let { DataMapper.mapToEntityShow(it) }
-                        if (mapShowDetail != null) {
-                            detailShow.postValue(mapShowDetail)
-                        }
-                        EspressoIdlingResource.decrement()
-                    }
-
-                    override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
-                        Log.e(TAG, t.stackTraceToString())
-                    }
-
-                })
-        }
-        return detailShow
-    }
-
 }

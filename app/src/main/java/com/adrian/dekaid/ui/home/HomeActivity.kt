@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.adrian.dekaid.R
+import com.adrian.dekaid.ui.favorite.FavoriteFragment
 import com.adrian.dekaid.ui.movie.MovieFragment
 import com.adrian.dekaid.ui.tvshow.ShowFragment
 import kotlinx.android.synthetic.main.activity_home.*
@@ -12,6 +13,7 @@ class HomeActivity : AppCompatActivity() {
 
     private val movieFragment = MovieFragment()
     private val tvShowFragment = ShowFragment()
+    private val favoriteFragment = FavoriteFragment()
     private val fragmentManager = supportFragmentManager
     private var fragment: Fragment = movieFragment
 
@@ -19,6 +21,10 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        setSupportActionBar(toolbar)
+
+        fragmentManager.beginTransaction().add(R.id.frame_layout, favoriteFragment)
+            .hide(favoriteFragment).commit()
         fragmentManager.beginTransaction().add(R.id.frame_layout, tvShowFragment)
             .hide(tvShowFragment).commit()
         fragmentManager.beginTransaction().add(R.id.frame_layout, movieFragment).commit()
@@ -32,6 +38,11 @@ class HomeActivity : AppCompatActivity() {
                 R.id.tvshow -> {
                     fragmentManager.beginTransaction().hide(fragment).show(tvShowFragment).commit()
                     fragment = tvShowFragment
+                }
+                R.id.favorite -> {
+                    fragmentManager.beginTransaction().hide(fragment).show(favoriteFragment)
+                        .commit()
+                    fragment = favoriteFragment
                 }
             }
             true

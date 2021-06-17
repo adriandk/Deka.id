@@ -4,25 +4,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.adrian.dekaid.R
-import com.adrian.dekaid.data.source.model.MovieData
+import com.adrian.dekaid.data.source.local.entity.MovieEntity
 import com.adrian.dekaid.utils.Formatter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.movie_item.view.*
 
-@Suppress("DEPRECATION")
-class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+class MovieAdapter : PagingDataAdapter<MovieEntity, MovieAdapter.ViewHolder>(DIFF_CALLBACK) {
 
-    var onItemClick: ((MovieData) -> Unit)? = null
-    private var movieList = ArrayList<MovieData>()
-
-    fun setMovie(movie: List<MovieData>?) {
-        if (movie == null) return
-        this.movieList.clear()
-        this.movieList.addAll(movie)
-    }
+    var onItemClick: ((MovieEntity) -> Unit)? = null
+    private var movieList = ArrayList<MovieEntity>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_item, parent, false)
@@ -30,20 +25,24 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(movieList[position])
+//        holder.bind(movieList[position])
+        val movie = getItem(position)
+        if (movie != null) {
+            holder.bind(movie)
+        } else {
+            Log.e("MovieAdapter", movie.toString())
+        }
     }
 
-    override fun getItemCount(): Int = movieList.size
-
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(dataMovie: MovieData) {
+        fun bind(dataMovie: MovieEntity) {
             with(itemView) {
-                Log.e("movie adapter", "data in adapter going to recycler view")
+//                Log.e("movie adapter", dataMovie.movieImage)
                 movie_title.text = dataMovie.movieTitle
-                movie_vote.text = dataMovie.movieVote.toString()
+                movie_vote.text = dataMovie.movieId.toString()
                 movie_year.text = Formatter.getYear(dataMovie.movieReleaseYear)
                 Glide.with(itemView.context)
-                    .load(dataMovie.posterLink)
+                    .load("https://image.tmdb.org/t/p/w500" + dataMovie.movieImage)
                     .apply(RequestOptions.placeholderOf(R.drawable.image_icon))
                     .error(R.drawable.broken_image)
                     .into(movie_image)
@@ -57,6 +56,17 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
             itemView.setOnClickListener {
                 onItemClick?.invoke(movieList[adapterPosition])
             }
+        }
+    }
+
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MovieEntity>() {
+            override fun areItemsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean =
+                oldItem.movieId == newItem.movieId
+
+            override fun areContentsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean =
+                oldItem == newItem
+
         }
     }
 

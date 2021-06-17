@@ -13,14 +13,15 @@ class DetailViewModel(private val movieRepository: MovieRepository) : ViewModel(
     }
 
     private lateinit var movies: LiveData<MovieData>
+    private lateinit var show: LiveData<MovieData>
 
     fun getMovie(movieId: Int, movieType: String) {
         when (movieType) {
             MOVIE -> {
-                movies = movieRepository.loadDetailMovies(movieId)
+//                movies = movieRepository.loadDetailMovies(movieId)
             }
             TV_SHOW -> {
-                movies = movieRepository.loadDetailShow(movieId)
+//                movies = movieRepository.loadDetailShow(movieId)
             }
         }
     }

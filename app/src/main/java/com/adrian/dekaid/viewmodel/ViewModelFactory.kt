@@ -1,5 +1,6 @@
 package com.adrian.dekaid.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.adrian.dekaid.data.MovieRepository
@@ -16,8 +17,8 @@ class ViewModelFactory private constructor(private val movieRepository: MovieRep
         @Volatile
         private var instance: ViewModelFactory? = null
 
-        fun getInstance(): ViewModelFactory = instance ?: synchronized(this) {
-            instance ?: ViewModelFactory(Injection.provideRepository())
+        fun getInstance(context: Context): ViewModelFactory = instance ?: synchronized(this) {
+            instance ?: ViewModelFactory(Injection.provideRepository(context))
         }
     }
 

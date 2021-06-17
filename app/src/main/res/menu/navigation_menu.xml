@@ -14,4 +14,10 @@
         app:showAsAction="always"
         android:icon="@drawable/tvshow_icon" />
 
+    <item
+        android:id="@+id/favorite"
+        android:title="@string/favorite"
+        app:showAsAction="always"
+        android:icon="@drawable/favorite_icon" />
+
 </menu>

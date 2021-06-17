@@ -21,7 +21,7 @@ data class MovieEntity(
     @ColumnInfo(name = "movieDescription")
     var movieDescription: String,
 
-    @ColumnInfo(name = "movieReleaseYear")
+    @ColumnInfo(name = "releaseDate")
     var movieReleaseYear: String,
 
     @ColumnInfo(name = "movieImage")

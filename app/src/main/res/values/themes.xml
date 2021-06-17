@@ -13,6 +13,8 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:navigationBarColor">@color/colorBlack</item>
+
+        <item name="android:actionOverflowButtonStyle">@style/OverflowActionButton</item>
     </style>
 
     <style name="Dekaid.AppBarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />
@@ -21,6 +23,11 @@
 
     <style name="ShapeAppearanceOverlay.App.CornerSize" parent="">
         <item name="cornerSize">10%</item>
+    </style>
+
+    <style name="OverflowActionButton" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@drawable/more_icon</item>
+        <item name="android:contentDescription">Sort Menu</item>
     </style>
 
 </resources>

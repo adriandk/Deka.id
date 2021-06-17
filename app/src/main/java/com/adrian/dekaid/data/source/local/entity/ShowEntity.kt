@@ -21,7 +21,7 @@ data class ShowEntity(
     @ColumnInfo(name = "showDescription")
     var showDescription: String,
 
-    @ColumnInfo(name = "showFirstAir")
+    @ColumnInfo(name = "releaseDate")
     var showFirstAir: String,
 
     @ColumnInfo(name = "showImage")

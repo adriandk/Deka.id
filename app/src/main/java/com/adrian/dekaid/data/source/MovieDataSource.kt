@@ -1,15 +1,22 @@
 package com.adrian.dekaid.data.source
 
 import androidx.lifecycle.LiveData
-import com.adrian.dekaid.data.source.model.MovieData
+import androidx.paging.PagedList
+import com.adrian.dekaid.data.source.local.entity.MovieEntity
+import com.adrian.dekaid.data.source.local.entity.ShowEntity
+import com.adrian.dekaid.data.source.remote.Resource
 
 interface MovieDataSource {
+    fun loadAllMovies(sort: String): LiveData<Resource<PagedList<MovieEntity>>>
 
-    fun loadAllMovies(): LiveData<List<MovieData>>
+    fun loadAllShow(sort: String): LiveData<Resource<PagedList<ShowEntity>>>
 
-    fun loadAllShow(): LiveData<List<MovieData>>
+    fun setFavoriteMovie(movie: MovieEntity, state: Boolean)
 
-    fun loadDetailMovies(movieId: Int): LiveData<MovieData>
+    fun setFavoriteShow(show: ShowEntity, state: Boolean)
 
-    fun loadDetailShow(showId: Int): LiveData<MovieData>
+    fun getFavoriteMovie(): LiveData<PagedList<MovieEntity>>
+
+    fun getFavoriteShow(): LiveData<PagedList<ShowEntity>>
+
 }

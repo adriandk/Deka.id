@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.adrian.dekaid.R
 import com.adrian.dekaid.ui.home.HomeActivity
 
-@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
 
     companion object {
@@ -18,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Handler().postDelayed({
+        Handler(mainLooper).postDelayed({
             startActivity(Intent(this, HomeActivity::class.java))
             finish()
         }, splashTime)
