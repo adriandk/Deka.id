@@ -4,7 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.adrian.dekaid.R
@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.movie_item.view.*
 
-class MovieAdapter : PagingDataAdapter<MovieEntity, MovieAdapter.ViewHolder>(DIFF_CALLBACK) {
+class MovieAdapter : PagedListAdapter<MovieEntity, MovieAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     var onItemClick: ((MovieEntity) -> Unit)? = null
     private var movieList = ArrayList<MovieEntity>()
