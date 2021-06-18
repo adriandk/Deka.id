@@ -47,7 +47,7 @@ class ShowAdapter : PagedListAdapter<ShowEntity, ShowAdapter.ViewHolder>(DIFF_CA
             with(itemView) {
 //                Log.e("show adapter", dataShow.showImage)
                 movie_title.text = dataShow.showName
-                movie_vote.text = dataShow.showId.toString()
+                movie_vote.text = dataShow.showVote.toString()
                 movie_year.text = Formatter.getYear(dataShow.showFirstAir)
                 Glide.with(itemView.context)
                     .load("https://image.tmdb.org/t/p/w500" + dataShow.showImage)

@@ -1,19 +1,34 @@
 package com.adrian.dekaid.ui.detail
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import com.adrian.dekaid.R
+import com.adrian.dekaid.data.source.local.entity.MovieEntity
+import com.adrian.dekaid.data.source.local.entity.ShowEntity
 import com.adrian.dekaid.databinding.ActivityDetailBinding
+import com.adrian.dekaid.utils.Formatter
+import com.adrian.dekaid.viewmodel.ViewModelFactory
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.content_detail.*
 
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var detailBinding: ActivityDetailBinding
+    private lateinit var detailViewModel: DetailViewModel
 
     companion object {
-        const val MOVIE_ID = "Movie ID"
-        const val MOVIE_CATEGORY = "Category Movie"
+        const val MOVIE_DATA = "Movie Data"
+        const val MOVIE_CATEGORY = "Movie Category"
+
+        const val MOVIE = "Movie"
+        const val SHOW = "Show"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,8 +36,17 @@ class DetailActivity : AppCompatActivity() {
         detailBinding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(detailBinding.root)
 
-        favorite_button.setOnClickListener {
-            setStatusFavorite(true)
+        detailViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(this))[DetailViewModel::class.java]
+
+        val category = intent.getStringExtra(MOVIE_CATEGORY)
+
+        progressBar(true)
+        if (category == MOVIE) {
+            val movieDetail = intent.getParcelableExtra<MovieEntity>(MOVIE_DATA)
+            showDetailMovie(movieDetail)
+        } else {
+            val showDetail = intent.getParcelableExtra<ShowEntity>(MOVIE_DATA)
+            showDetailShow(showDetail)
         }
 
 //        val viewModel = ViewModelProvider(
@@ -42,33 +66,67 @@ class DetailActivity : AppCompatActivity() {
 //        }
     }
 
-//    @SuppressLint("SetTextI18n")
-//    private fun populateDataDetail(movies: MovieData, movieCategory: String) {
-//        progressBar(false)
-//        if (movieCategory == "movie") {
-//            movie_title_detail.text = movies.movieTitle
-//            duration_detail.text = "${movies.movieDuration} min"
-//            release_year.text = Formatter.getYear(movies.movieReleaseYear)
-//        } else {
-//            movie_title_detail.text = movies.movieName
-//            duration_detail.text = "${movies.showSeason} seasons"
-//            release_year.text = Formatter.getYear(movies.movieFirstAir)
-//        }
-//        vote_detail.text = movies.movieVote.toString()
-//        movie_sinopsis.text = movies.movieDescription
-//
-//        Glide.with(this)
-//            .load(movies.posterLink)
-//            .apply(RequestOptions.placeholderOf(R.drawable.image_icon))
-//            .error(R.drawable.broken_image)
-//            .into(detailBinding.imageDetail)
-//
-//        detailBinding.imageDetail.tag = movies.posterLink
-//    }
-//
-//    private fun progressBar(bar: Boolean) {
-//        detail_bar.isVisible = bar
-//    }
+    @SuppressLint("SetTextI18n")
+    private fun showDetailMovie(movie: MovieEntity?) {
+        movie?.let {
+            progressBar(false)
+            movie_title_detail.text = movie.movieTitle
+            duration_detail.text = "${movie.movieDuration} min"
+            release_year.text = Formatter.getYear(movie.movieReleaseYear)
+            vote_detail.text = movie.movieVote.toString()
+            movie_sinopsis.text = movie.movieDescription
+
+            Glide.with(this)
+            .load("https://image.tmdb.org/t/p/w500" + movie.movieImage)
+            .apply(RequestOptions.placeholderOf(R.drawable.image_icon))
+            .error(R.drawable.broken_image)
+            .into(detailBinding.imageDetail)
+
+            detailBinding.imageDetail.tag = movie.movieImage
+
+            var statusFavorite = movie.isFavorite
+            setStatusFavorite(statusFavorite)
+            favorite_button.setOnClickListener {
+                statusFavorite = !statusFavorite
+                detailViewModel.setFavoriteMovie(movie, statusFavorite)
+                setStatusFavorite(statusFavorite)
+                Toast.makeText(this, "berhasil", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showDetailShow(show: ShowEntity?) {
+        show?.let {
+            progressBar(false)
+            movie_title_detail.text = show.showName
+            duration_detail.text = "${show.showSeason} seasons"
+            release_year.text = Formatter.getYear(show.showFirstAir)
+            vote_detail.text = show.showVote.toString()
+            movie_sinopsis.text = show.showDescription
+
+            Glide.with(this)
+                .load("https://image.tmdb.org/t/p/w500" + show.showImage)
+                .apply(RequestOptions.placeholderOf(R.drawable.image_icon))
+                .error(R.drawable.broken_image)
+                .into(detailBinding.imageDetail)
+
+            detailBinding.imageDetail.tag = show.showImage
+
+            var statusFavorite = show.isFavorite
+            setStatusFavorite(statusFavorite)
+            favorite_button.setOnClickListener {
+                statusFavorite = !statusFavorite
+                detailViewModel.setFavoriteShow(show, statusFavorite)
+                setStatusFavorite(statusFavorite)
+                Toast.makeText(this, "berhasil", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun progressBar(bar: Boolean) {
+        detail_bar.isVisible = bar
+    }
 
     private fun setStatusFavorite(statusFavorite: Boolean) {
         if (statusFavorite) {

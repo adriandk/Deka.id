@@ -14,7 +14,6 @@ import com.adrian.dekaid.R
 import com.adrian.dekaid.data.source.local.entity.ShowEntity
 import com.adrian.dekaid.data.source.remote.Resource
 import com.adrian.dekaid.ui.detail.DetailActivity
-import com.adrian.dekaid.ui.detail.DetailViewModel
 import com.adrian.dekaid.utils.SortUtils.NEWEST
 import com.adrian.dekaid.utils.SortUtils.OLDEST
 import com.adrian.dekaid.viewmodel.ViewModelFactory
@@ -61,10 +60,10 @@ class ShowFragment : Fragment() {
                     showAdapter.submitList(it.data)
                     showAdapter.setData(it.data)
                     showAdapter.notifyDataSetChanged()
-                    showAdapter.onItemClick = {
+                    showAdapter.onItemClick = { showData ->
                         val intent = Intent(activity, DetailActivity::class.java)
-                        intent.putExtra(DetailActivity.MOVIE_ID, it.showId)
-                        intent.putExtra(DetailActivity.MOVIE_CATEGORY, DetailViewModel.MOVIE)
+                        intent.putExtra(DetailActivity.MOVIE_DATA, showData)
+                        intent.putExtra(DetailActivity.MOVIE_CATEGORY, DetailActivity.SHOW)
                         startActivity(intent)
                     }
                 }

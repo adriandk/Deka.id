@@ -14,7 +14,6 @@ import com.adrian.dekaid.R
 import com.adrian.dekaid.data.source.local.entity.MovieEntity
 import com.adrian.dekaid.data.source.remote.Resource
 import com.adrian.dekaid.ui.detail.DetailActivity
-import com.adrian.dekaid.ui.detail.DetailViewModel.Companion.MOVIE
 import com.adrian.dekaid.utils.SortUtils.NEWEST
 import com.adrian.dekaid.utils.SortUtils.OLDEST
 import com.adrian.dekaid.viewmodel.ViewModelFactory
@@ -62,10 +61,10 @@ class MovieFragment : Fragment() {
                     movieAdapter.submitList(it.data)
                     movieAdapter.setData(it.data)
                     movieAdapter.notifyDataSetChanged()
-                    movieAdapter.onItemClick = {
+                    movieAdapter.onItemClick = { movieData ->
                         val intent = Intent(activity, DetailActivity::class.java)
-                        intent.putExtra(DetailActivity.MOVIE_ID, it.movieId)
-                        intent.putExtra(DetailActivity.MOVIE_CATEGORY, MOVIE)
+                        intent.putExtra(DetailActivity.MOVIE_DATA, movieData)
+                        intent.putExtra(DetailActivity.MOVIE_CATEGORY, DetailActivity.MOVIE)
                         startActivity(intent)
                     }
                 }

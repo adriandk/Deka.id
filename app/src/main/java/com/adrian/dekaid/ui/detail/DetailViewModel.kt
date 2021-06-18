@@ -1,31 +1,16 @@
 package com.adrian.dekaid.ui.detail
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.adrian.dekaid.data.MovieRepository
-import com.adrian.dekaid.data.source.model.MovieData
+import com.adrian.dekaid.data.source.local.entity.MovieEntity
+import com.adrian.dekaid.data.source.local.entity.ShowEntity
 
 class DetailViewModel(private val movieRepository: MovieRepository) : ViewModel() {
-
-    companion object {
-        const val TV_SHOW = "tv show"
-        const val MOVIE = "movie"
+    fun setFavoriteMovie(movie: MovieEntity, newStatus: Boolean) {
+        movieRepository.setFavoriteMovie(movie, newStatus)
     }
 
-    private lateinit var movies: LiveData<MovieData>
-    private lateinit var show: LiveData<MovieData>
-
-    fun getMovie(movieId: Int, movieType: String) {
-        when (movieType) {
-            MOVIE -> {
-//                movies = movieRepository.loadDetailMovies(movieId)
-            }
-            TV_SHOW -> {
-//                movies = movieRepository.loadDetailShow(movieId)
-            }
-        }
+    fun setFavoriteShow(show: ShowEntity, newStatus: Boolean) {
+        movieRepository.setFavoriteShow(show, newStatus)
     }
-
-    fun getMovieDetail() = movies
-
 }

@@ -1,10 +1,13 @@
 package com.adrian.dekaid.data.source.local.entity
 
+import android.os.Parcelable
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 @Entity(tableName = "movie")
 data class MovieEntity(
     @PrimaryKey
@@ -32,4 +35,4 @@ data class MovieEntity(
 
     @ColumnInfo(name = "isFavorite")
     var isFavorite: Boolean = false
-)
+): Parcelable
