@@ -26,14 +26,12 @@ class ShowAdapter : PagedListAdapter<ShowEntity, ShowAdapter.ViewHolder>(DIFF_CA
         notifyDataSetChanged()
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_item, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ShowAdapter.ViewHolder, position: Int) {
-//        holder.bind(showList[position])
         val show = getItem(position)
         if (show != null) {
             holder.bind(show)
@@ -45,7 +43,6 @@ class ShowAdapter : PagedListAdapter<ShowEntity, ShowAdapter.ViewHolder>(DIFF_CA
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(dataShow: ShowEntity) {
             with(itemView) {
-//                Log.e("show adapter", dataShow.showImage)
                 movie_title.text = dataShow.showName
                 movie_vote.text = dataShow.showVote.toString()
                 movie_year.text = Formatter.getYear(dataShow.showFirstAir)

@@ -9,12 +9,12 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    @GET("movie/popular")
+    @GET("movie/top_rated")
     fun getAllMovies(
         @Query("api_key") api: String
     ): Call<ListMovieResponse>
 
-    @GET("tv/popular")
+    @GET("tv/top_rated")
     fun getAllShow(
         @Query("api_key") api: String
     ): Call<ListMovieResponse>

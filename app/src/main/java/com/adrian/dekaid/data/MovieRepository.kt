@@ -105,7 +105,7 @@ class MovieRepository private constructor(
 
             override fun saveCallResult(data: MoviesResponse) {
                 val movieDetail = DataMapper.mapFromResponseToEntityMovie(data)
-                localDataSource.setFavoriteMovie(movieDetail, false)
+                localDataSource.updateMovie(movieDetail, false)
             }
 
         }.asLiveData()
@@ -127,7 +127,7 @@ class MovieRepository private constructor(
 
             override fun saveCallResult(data: MoviesResponse) {
                 val showDetail = DataMapper.mapFromResponseToEntityShow(data)
-                localDataSource.setFavoriteShow(showDetail, false)
+                localDataSource.updateShow(showDetail, false)
             }
 
         }.asLiveData()

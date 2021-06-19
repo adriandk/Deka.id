@@ -11,8 +11,6 @@
         android:id="@+id/rv_movie"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-84dp"
         tools:listitem="@layout/movie_item" />
 
     <com.facebook.shimmer.ShimmerFrameLayout

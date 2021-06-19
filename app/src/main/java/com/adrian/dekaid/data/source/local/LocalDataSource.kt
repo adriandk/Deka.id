@@ -60,4 +60,14 @@ class LocalDataSource(private val movieDao: MovieDao) {
         movieDao.updateTvShow(show)
     }
 
+    fun updateMovie(movie: MovieEntity, state: Boolean) {
+        movie.isFavorite = state
+        movieDao.updateMovie(movie)
+    }
+
+    fun updateShow(show: ShowEntity, state: Boolean) {
+        show.isFavorite = state
+        movieDao.updateTvShow(show)
+    }
+
 }

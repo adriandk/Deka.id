@@ -32,7 +32,6 @@ class MovieAdapter : PagedListAdapter<MovieEntity, MovieAdapter.ViewHolder>(DIFF
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        holder.bind(movieList[position])
         val movie = getItem(position)
         if (movie != null) {
             holder.bind(movie)
@@ -44,9 +43,8 @@ class MovieAdapter : PagedListAdapter<MovieEntity, MovieAdapter.ViewHolder>(DIFF
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(dataMovie: MovieEntity) {
             with(itemView) {
-//                Log.e("movie adapter", dataMovie.movieImage)
                 movie_title.text = dataMovie.movieTitle
-                movie_vote.text = dataMovie.movieDuration.toString()
+                movie_vote.text = dataMovie.movieVote.toString()
                 movie_year.text = Formatter.getYear(dataMovie.movieReleaseYear)
                 Glide.with(itemView.context)
                     .load("https://image.tmdb.org/t/p/w500" + dataMovie.movieImage)
