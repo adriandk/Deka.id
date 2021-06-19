@@ -63,17 +63,14 @@ class MovieRepository private constructor(
     }
 
     override fun loadAllShow(sort: String): LiveData<Resource<PagedList<ShowEntity>>> {
-
         return object :
             NetworkBoundResource<PagedList<ShowEntity>, List<MoviesResponse>>(appExecutors) {
-
             override fun loadFromDB(): LiveData<PagedList<ShowEntity>> {
                 val config = PagedList.Config.Builder()
                     .setEnablePlaceholders(false)
                     .setInitialLoadSizeHint(4)
                     .setPageSize(4)
                     .build()
-
                 return LivePagedListBuilder(localDataSource.getAllShow(sort), config).build()
             }
 
@@ -87,6 +84,50 @@ class MovieRepository private constructor(
             override fun saveCallResult(data: List<MoviesResponse>) {
                 val showList = DataMapper.mapFromResponseToEntitiesShow(data)
                 localDataSource.insertShow(showList)
+            }
+
+        }.asLiveData()
+    }
+
+    override fun getDetailMovie(movieId: Int): LiveData<Resource<MovieEntity>> {
+        return object : NetworkBoundResource<MovieEntity, MoviesResponse>(appExecutors) {
+            override fun loadFromDB(): LiveData<MovieEntity> {
+                return localDataSource.getDetailMovie(movieId)
+            }
+
+            override fun shouldFetch(data: MovieEntity?): Boolean {
+                return data != null && data.movieDuration == 0
+            }
+
+            override fun createCall(): LiveData<ApiResponse<MoviesResponse>> {
+                return remoteDataSource.getDetailMovie(movieId)
+            }
+
+            override fun saveCallResult(data: MoviesResponse) {
+                val movieDetail = DataMapper.mapFromResponseToEntityMovie(data)
+                localDataSource.setFavoriteMovie(movieDetail, false)
+            }
+
+        }.asLiveData()
+    }
+
+    override fun getDetailShow(showId: Int): LiveData<Resource<ShowEntity>> {
+        return object : NetworkBoundResource<ShowEntity, MoviesResponse>(appExecutors) {
+            override fun loadFromDB(): LiveData<ShowEntity> {
+                return localDataSource.getDetailShow(showId)
+            }
+
+            override fun shouldFetch(data: ShowEntity?): Boolean {
+                return data != null && data.showSeason == 0
+            }
+
+            override fun createCall(): LiveData<ApiResponse<MoviesResponse>> {
+                return remoteDataSource.getDetailShow(showId)
+            }
+
+            override fun saveCallResult(data: MoviesResponse) {
+                val showDetail = DataMapper.mapFromResponseToEntityShow(data)
+                localDataSource.setFavoriteShow(showDetail, false)
             }
 
         }.asLiveData()

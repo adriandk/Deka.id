@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.adrian.dekaid.R
 import com.adrian.dekaid.data.source.local.entity.MovieEntity
 import com.adrian.dekaid.data.source.local.entity.ShowEntity
+import com.adrian.dekaid.data.source.remote.Resource
 import com.adrian.dekaid.databinding.ActivityDetailBinding
 import com.adrian.dekaid.utils.Formatter
 import com.adrian.dekaid.viewmodel.ViewModelFactory
@@ -37,33 +38,40 @@ class DetailActivity : AppCompatActivity() {
         setContentView(detailBinding.root)
 
         detailViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(this))[DetailViewModel::class.java]
-
         val category = intent.getStringExtra(MOVIE_CATEGORY)
 
         progressBar(true)
         if (category == MOVIE) {
-            val movieDetail = intent.getParcelableExtra<MovieEntity>(MOVIE_DATA)
-            showDetailMovie(movieDetail)
+            val movieId = intent.getIntExtra(MOVIE_DATA, 0)
+            detailViewModel.getDetail(movieId, MOVIE)
+            detailViewModel.detailDataMovie().observe(this, {
+                if (it != null) {
+                    when(it) {
+                        is Resource.Loading -> progressBar(true)
+                        is Resource.Error -> progressBar(true)
+                        is Resource.Success -> {
+                            progressBar(false)
+                            showDetailMovie(it.data)
+                        }
+                    }
+                }
+            })
         } else {
-            val showDetail = intent.getParcelableExtra<ShowEntity>(MOVIE_DATA)
-            showDetailShow(showDetail)
+            val showId = intent.getIntExtra(MOVIE_DATA,0)
+            detailViewModel.getDetail(showId, SHOW)
+            detailViewModel.detailDataShow().observe(this, {
+                if (it != null) {
+                    when(it) {
+                        is Resource.Loading -> progressBar(true)
+                        is Resource.Error -> progressBar(true)
+                        is Resource.Success -> {
+                            progressBar(false)
+                            showDetailShow(it.data)
+                        }
+                    }
+                }
+            })
         }
-
-//        val viewModel = ViewModelProvider(
-//            this,
-//            ViewModelFactory.getInstance(applicationContext)
-//        )[DetailViewModel::class.java]
-//
-//        progressBar(true)
-//        val extras = intent.extras
-//        if (extras != null) {
-//            val movieId = extras.getInt(MOVIE_ID)
-//            val movieCategory = extras.getString(MOVIE_CATEGORY).toString()
-//            viewModel.getMovie(movieId, movieCategory)
-//            viewModel.getMovieDetail().observe(this, {
-//                populateDataDetail(it, movieCategory)
-//            })
-//        }
     }
 
     @SuppressLint("SetTextI18n")

@@ -63,7 +63,7 @@ class MovieFragment : Fragment() {
                     movieAdapter.notifyDataSetChanged()
                     movieAdapter.onItemClick = { movieData ->
                         val intent = Intent(activity, DetailActivity::class.java)
-                        intent.putExtra(DetailActivity.MOVIE_DATA, movieData)
+                        intent.putExtra(DetailActivity.MOVIE_DATA, movieData.movieId)
                         intent.putExtra(DetailActivity.MOVIE_CATEGORY, DetailActivity.MOVIE)
                         startActivity(intent)
                     }

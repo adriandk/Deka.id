@@ -46,7 +46,7 @@ class MovieAdapter : PagedListAdapter<MovieEntity, MovieAdapter.ViewHolder>(DIFF
             with(itemView) {
 //                Log.e("movie adapter", dataMovie.movieImage)
                 movie_title.text = dataMovie.movieTitle
-                movie_vote.text = dataMovie.movieVote.toString()
+                movie_vote.text = dataMovie.movieDuration.toString()
                 movie_year.text = Formatter.getYear(dataMovie.movieReleaseYear)
                 Glide.with(itemView.context)
                     .load("https://image.tmdb.org/t/p/w500" + dataMovie.movieImage)

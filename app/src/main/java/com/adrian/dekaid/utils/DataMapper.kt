@@ -40,4 +40,30 @@ object DataMapper {
         return showList
     }
 
+    fun mapFromResponseToEntityMovie(input: MoviesResponse): MovieEntity {
+        return MovieEntity(
+            movieId = input.id,
+            movieDescription = input.overview,
+            movieTitle = input.title,
+            movieDuration = input.runtime,
+            movieReleaseYear = input.releasedDate,
+            movieVote = input.voteAverage,
+            movieImage = input.posterPath,
+            isFavorite = false
+        )
+    }
+
+    fun mapFromResponseToEntityShow(input: MoviesResponse): ShowEntity {
+        return ShowEntity(
+            showId = input.id,
+            showName = input.originalName,
+            showDescription = input.overview,
+            showFirstAir = input.firstAirDate,
+            showSeason = input.showSeason,
+            showVote = input.voteAverage,
+            showImage = input.posterPath,
+            isFavorite = false
+        )
+    }
+
 }

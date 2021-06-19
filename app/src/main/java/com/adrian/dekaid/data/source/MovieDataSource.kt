@@ -11,6 +11,10 @@ interface MovieDataSource {
 
     fun loadAllShow(sort: String): LiveData<Resource<PagedList<ShowEntity>>>
 
+    fun getDetailMovie(movieId: Int): LiveData<Resource<MovieEntity>>
+
+    fun getDetailShow(showId: Int): LiveData<Resource<ShowEntity>>
+
     fun setFavoriteMovie(movie: MovieEntity, state: Boolean)
 
     fun setFavoriteShow(show: ShowEntity, state: Boolean)

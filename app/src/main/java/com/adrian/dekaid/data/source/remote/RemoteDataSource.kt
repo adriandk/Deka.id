@@ -56,8 +56,7 @@ class RemoteDataSource {
                 call: Call<ListMovieResponse>,
                 response: Response<ListMovieResponse>
             ) {
-                showList.value =
-                    ApiResponse.Success(response.body()?.movies as List<MoviesResponse>)
+                showList.value = ApiResponse.Success(response.body()?.movies as List<MoviesResponse>)
                 EspressoIdlingResource.decrement()
             }
 
@@ -67,7 +66,6 @@ class RemoteDataSource {
             }
 
         })
-
         return showList
     }
 

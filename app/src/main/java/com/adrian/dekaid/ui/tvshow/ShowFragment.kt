@@ -62,7 +62,7 @@ class ShowFragment : Fragment() {
                     showAdapter.notifyDataSetChanged()
                     showAdapter.onItemClick = { showData ->
                         val intent = Intent(activity, DetailActivity::class.java)
-                        intent.putExtra(DetailActivity.MOVIE_DATA, showData)
+                        intent.putExtra(DetailActivity.MOVIE_DATA, showData.showId)
                         intent.putExtra(DetailActivity.MOVIE_CATEGORY, DetailActivity.SHOW)
                         startActivity(intent)
                     }

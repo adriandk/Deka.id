@@ -1,5 +1,6 @@
 package com.adrian.dekaid.data.source.local
 
+import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import com.adrian.dekaid.data.source.local.entity.MovieEntity
 import com.adrian.dekaid.data.source.local.entity.ShowEntity
@@ -23,6 +24,14 @@ class LocalDataSource(private val movieDao: MovieDao) {
 
     fun getAllShow(sort: String): DataSource.Factory<Int, ShowEntity> {
         return movieDao.getShow(SortUtils.getSortedQuery(sort, SHOW_TABLE))
+    }
+
+    fun getDetailMovie(id: Int): LiveData<MovieEntity> {
+        return movieDao.getDetailMovie(id)
+    }
+
+    fun getDetailShow(id: Int): LiveData<ShowEntity> {
+        return movieDao.getDetailShow(id)
     }
 
     fun getFavoriteMovie(): DataSource.Factory<Int, MovieEntity> {
