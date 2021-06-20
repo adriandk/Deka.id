@@ -14,7 +14,6 @@ import com.adrian.dekaid.data.source.remote.response.MoviesResponse
 import com.adrian.dekaid.utils.AppExecutors
 import com.adrian.dekaid.utils.DataMapper
 
-@Suppress("DEPRECATION")
 class MovieRepository private constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
@@ -36,15 +35,13 @@ class MovieRepository private constructor(
     }
 
     override fun loadAllMovies(sort: String): LiveData<Resource<PagedList<MovieEntity>>> {
-        return object :
-            NetworkBoundResource<PagedList<MovieEntity>, List<MoviesResponse>>(appExecutors) {
+        return object : NetworkBoundResource<PagedList<MovieEntity>, List<MoviesResponse>>(appExecutors) {
             override fun loadFromDB(): LiveData<PagedList<MovieEntity>> {
                 val config = PagedList.Config.Builder()
                     .setEnablePlaceholders(false)
                     .setInitialLoadSizeHint(4)
                     .setPageSize(4)
                     .build()
-
                 return LivePagedListBuilder(localDataSource.getAllMovie(sort), config).build()
             }
 

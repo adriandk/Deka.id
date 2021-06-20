@@ -13,9 +13,10 @@ class LocalDataSource(private val movieDao: MovieDao) {
     companion object {
         private var instance: LocalDataSource? = null
 
-        fun getInstance(movieDao: MovieDao): LocalDataSource {
-            return instance ?: LocalDataSource(movieDao)
-        }
+        fun getInstance(movieDao: MovieDao): LocalDataSource =
+            instance ?: synchronized(this) {
+                instance ?: LocalDataSource(movieDao)
+            }
     }
 
     fun getAllMovie(sort: String): DataSource.Factory<Int, MovieEntity> {

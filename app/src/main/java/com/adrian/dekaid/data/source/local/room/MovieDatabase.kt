@@ -17,15 +17,9 @@ abstract class MovieDatabase : RoomDatabase() {
 
         fun getDatabase(context: Context): MovieDatabase =
             INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    MovieDatabase::class.java,
-                    "Film.db"
-                )
-                    .fallbackToDestructiveMigration()
-                    .build()
-                INSTANCE = instance
-                instance
+                INSTANCE
+                    ?: Room.databaseBuilder(context.applicationContext,
+                    MovieDatabase::class.java, "DekaId.db").build()
             }
     }
 }

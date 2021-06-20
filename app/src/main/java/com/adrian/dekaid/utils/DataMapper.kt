@@ -15,8 +15,9 @@ object DataMapper {
                 movieVote = movieData.voteAverage,
                 movieReleaseYear = movieData.releasedDate,
                 movieImage = movieData.posterPath,
-                movieDuration = movieData.runtime,
-                movieDescription = movieData.overview
+                movieDuration = 0,
+                movieDescription = movieData.overview,
+                isFavorite = false
             )
             movieList.add(movie)
         }
@@ -30,10 +31,11 @@ object DataMapper {
                 showId = showData.id,
                 showName = showData.originalName,
                 showDescription = showData.overview,
-                showSeason = showData.showSeason,
+                showSeason = 0,
                 showFirstAir = showData.firstAirDate,
                 showImage = showData.posterPath,
-                showVote = showData.voteAverage
+                showVote = showData.voteAverage,
+                isFavorite = false
             )
             showList.add(show)
         }
