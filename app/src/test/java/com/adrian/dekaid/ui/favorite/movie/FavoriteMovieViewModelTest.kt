@@ -42,14 +42,14 @@ class FavoriteMovieViewModelTest {
     @Test
     fun getFavoriteMovie() {
         val dummyMovieFavorite = pagedList
-        `when`(dummyMovieFavorite.size).thenReturn(3)
+        `when`(dummyMovieFavorite.size).thenReturn(5)
         val movie = MutableLiveData<PagedList<MovieEntity>>()
         movie.value = dummyMovieFavorite
         `when`(movieRepository.getFavoriteMovie()).thenReturn(movie)
         val favoriteMovieData = viewModel.getFavoriteMovie().value
         verify(movieRepository).getFavoriteMovie()
         assertNotNull(favoriteMovieData)
-        assertEquals(3, favoriteMovieData?.size)
+        assertEquals(5, favoriteMovieData?.size)
         viewModel.getFavoriteMovie().observeForever(observer)
         verify(observer).onChanged(dummyMovieFavorite)
     }
