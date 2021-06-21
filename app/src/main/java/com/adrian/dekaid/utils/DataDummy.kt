@@ -11,7 +11,7 @@ object DataDummy {
             MovieEntity(
                 337404,
                 "Cruella",
-                8.7,
+                8.6,
                 "In 1970s London amidst the punk rock revolution, a young grifter named Estella is determined to make a name for herself with her designs. She befriends a pair of young thieves who appreciate her appetite for mischief, and together they are able to build a life for themselves on the London streets. One day, Estella’s flair for fashion catches the eye of the Baroness von Hellman, a fashion legend who is devastatingly chic and terrifyingly haute. But their relationship sets in motion a course of events and revelations that will cause Estella to embrace her wicked side and become the raucous, fashionable and revenge-bent Cruella.",
                 "2021",
                 "/rTh4K5uw9HypmpGslcKd4QfHl93.jpg",
@@ -44,12 +44,12 @@ object DataDummy {
     fun getShowData(): List<ShowEntity> {
         return listOf(
             ShowEntity(
-                108261,
-                "Mr. Queen",
+                114868,
+                "Record of Ragnarok",
                 9.0,
-                "In the modern age, Jang Bong-hwan is a chef who works for the country's top politicians at the Blue House. He has a free spirit, but he one day finds himself in the body of Queen Cheorin in the Joseon period.",
-                "2020",
-                "/vP6jiaPmzgHF5YyvrkK44PJGmyR.jpg",
+                "Before eradicating humankind from the world, the gods give them one last chance to prove themselves worthy of survival. Let the Ragnarok battles begin.",
+                "2021",
+                "/kTs2WNZOukpWdNhoRlH94pSJ3xf.jpg",
                 1,
                 false
             ),
