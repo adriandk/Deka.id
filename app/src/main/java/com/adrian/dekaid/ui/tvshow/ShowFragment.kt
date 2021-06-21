@@ -59,13 +59,13 @@ class ShowFragment : Fragment() {
                     progressBar(false)
                     showAdapter.submitList(it.data)
                     showAdapter.setData(it.data)
-                    showAdapter.notifyDataSetChanged()
                     showAdapter.onItemClick = { showData ->
                         val intent = Intent(activity, DetailActivity::class.java)
                         intent.putExtra(DetailActivity.MOVIE_DATA, showData.showId)
                         intent.putExtra(DetailActivity.MOVIE_CATEGORY, DetailActivity.SHOW)
                         startActivity(intent)
                     }
+                    showAdapter.notifyDataSetChanged()
                 }
                 is Resource.Error -> progressBar(true)
             }

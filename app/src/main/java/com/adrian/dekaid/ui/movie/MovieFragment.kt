@@ -59,13 +59,13 @@ class MovieFragment : Fragment() {
                     progressBar(false)
                     movieAdapter.submitList(it.data)
                     movieAdapter.setData(it.data)
-                    movieAdapter.notifyDataSetChanged()
                     movieAdapter.onItemClick = { movieData ->
                         val intent = Intent(activity, DetailActivity::class.java)
                         intent.putExtra(DetailActivity.MOVIE_DATA, movieData.movieId)
                         intent.putExtra(DetailActivity.MOVIE_CATEGORY, DetailActivity.MOVIE)
                         startActivity(intent)
                     }
+                    movieAdapter.notifyDataSetChanged()
                 }
                 is Resource.Error -> progressBar(true)
             }

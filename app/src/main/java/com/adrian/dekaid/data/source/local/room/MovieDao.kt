@@ -19,7 +19,7 @@ interface MovieDao {
     @Query("SELECT * FROM movie WHERE isFavorite = 1")
     fun getFavoriteMovie(): DataSource.Factory<Int, MovieEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertMovies(movies: List<MovieEntity>)
 
     @Update
@@ -35,7 +35,7 @@ interface MovieDao {
     @Query("SELECT * FROM show WHERE isFavorite = 1")
     fun getFavoriteShow(): DataSource.Factory<Int, ShowEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertTvShows(tvShows: List<ShowEntity>)
 
     @Update

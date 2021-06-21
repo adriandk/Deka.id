@@ -3,11 +3,12 @@ package com.adrian.dekaid.ui.tvshow
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.adrian.dekaid.data.MovieRepository
-import com.adrian.dekaid.data.source.model.MovieData
-import com.adrian.dekaid.utils.DataDummy
-import com.google.common.truth.Truth
+import com.adrian.dekaid.data.source.local.entity.ShowEntity
+import com.adrian.dekaid.data.source.remote.Resource
 import com.nhaarman.mockitokotlin2.verify
+import org.junit.Assert
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
@@ -22,14 +23,17 @@ class ShowViewModelTest {
 
     private lateinit var viewModel: ShowViewModel
 
-    @get:Rule
-    var instantTaskExecutorRule = InstantTaskExecutorRule()
-
     @Mock
     private lateinit var movieRepository: MovieRepository
 
     @Mock
-    private lateinit var observer: Observer<List<MovieData>>
+    private lateinit var observer: Observer<Resource<PagedList<ShowEntity>>>
+
+    @Mock
+    lateinit var pagedList: PagedList<ShowEntity>
+
+    @get:Rule
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Before
     fun setUp() {
@@ -38,17 +42,18 @@ class ShowViewModelTest {
 
     @Test
     fun getShow() {
-        val dummyData = DataDummy.getShowData()
-        val show = MutableLiveData<List<MovieData>>()
-        show.value = dummyData
+        val dummyShow = Resource.Success(pagedList)
+        `when`(dummyShow.data?.size).thenReturn(3)
+        val show = MutableLiveData<Resource<PagedList<ShowEntity>>>()
+        show.value = dummyShow
 
-        `when`(movieRepository.loadAllShow()).thenReturn(show)
-        val showData = viewModel.getShow().value
-        verify(movieRepository).loadAllShow()
+        `when`(movieRepository.loadAllShow("NEWEST")).thenReturn(show)
+        val showData = viewModel.getShow("NEWEST").value?.data
+        verify(movieRepository).loadAllShow("NEWEST")
         assertNotNull(showData)
-        Truth.assertThat(showData?.size).isEqualTo(show.value!!.size)
+        Assert.assertEquals(3, showData?.size)
 
-        viewModel.getShow().observeForever(observer)
-        verify(observer).onChanged(showData)
+        viewModel.getShow("NEWEST").observeForever(observer)
+        verify(observer).onChanged(dummyShow)
     }
 }

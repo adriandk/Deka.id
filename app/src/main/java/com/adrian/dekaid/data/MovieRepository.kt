@@ -39,8 +39,8 @@ class MovieRepository private constructor(
             override fun loadFromDB(): LiveData<PagedList<MovieEntity>> {
                 val config = PagedList.Config.Builder()
                     .setEnablePlaceholders(false)
-                    .setInitialLoadSizeHint(4)
-                    .setPageSize(4)
+                    .setInitialLoadSizeHint(20)
+                    .setPageSize(20)
                     .build()
                 return LivePagedListBuilder(localDataSource.getAllMovie(sort), config).build()
             }
@@ -65,8 +65,8 @@ class MovieRepository private constructor(
             override fun loadFromDB(): LiveData<PagedList<ShowEntity>> {
                 val config = PagedList.Config.Builder()
                     .setEnablePlaceholders(false)
-                    .setInitialLoadSizeHint(4)
-                    .setPageSize(4)
+                    .setInitialLoadSizeHint(20)
+                    .setPageSize(20)
                     .build()
                 return LivePagedListBuilder(localDataSource.getAllShow(sort), config).build()
             }

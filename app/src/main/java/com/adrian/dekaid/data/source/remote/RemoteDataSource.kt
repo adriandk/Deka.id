@@ -28,14 +28,12 @@ class RemoteDataSource {
         EspressoIdlingResource.increment()
         val movieList = MutableLiveData<ApiResponse<List<MoviesResponse>>>()
 
-        ApiConfig.getApiService().getAllMovies(API_KEY)
-            .enqueue(object : Callback<ListMovieResponse> {
+        ApiConfig.getApiService().getAllMovies(API_KEY).enqueue(object : Callback<ListMovieResponse> {
                 override fun onResponse(
                     call: Call<ListMovieResponse>,
                     response: Response<ListMovieResponse>
                 ) {
-                    movieList.value =
-                        ApiResponse.Success(response.body()?.movies as List<MoviesResponse>)
+                    movieList.value = ApiResponse.Success(response.body()?.movies as List<MoviesResponse>)
                     EspressoIdlingResource.decrement()
                 }
 
