@@ -5,5 +5,4 @@ import com.adrian.dekaid.data.MovieRepository
 
 class FavoriteShowViewModel(private val movieRepository: MovieRepository) : ViewModel() {
     fun getFavoriteShow() = movieRepository.getFavoriteShow()
-
 }

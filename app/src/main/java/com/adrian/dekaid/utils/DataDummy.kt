@@ -48,7 +48,7 @@ object DataDummy {
                 "Record of Ragnarok",
                 9.0,
                 "Before eradicating humankind from the world, the gods give them one last chance to prove themselves worthy of survival. Let the Ragnarok battles begin.",
-                "2021",
+                "2021-06-17",
                 "/kTs2WNZOukpWdNhoRlH94pSJ3xf.jpg",
                 1,
                 false
@@ -120,16 +120,16 @@ object DataDummy {
     fun getRemoteShow(): List<MoviesResponse> {
         return listOf(
             MoviesResponse(
-                108261,
-                "/ozuyMnOO5pekDklyPpUL1Htkuzy.jpg",
+                114868,
+                "/kTs2WNZOukpWdNhoRlH94pSJ3xf.jpg",
                 "",
-                "In the modern age, Jang Bong-hwan is a chef who works for the country's top politicians at the Blue House. He has a free spirit, but he one day finds himself in the body of Queen Cheorin in the Joseon period.",
+                "Before eradicating humankind from the world, the gods give them one last chance to prove themselves worthy of survival. Let the Ragnarok battles begin.",
                 "",
                 0,
                 1,
                 9.0,
-                "2016-01-25",
-                "Mr. Queen"
+                "2021-06-17",
+                "Record of Ragnarok"
             ),
             MoviesResponse(
                 100,

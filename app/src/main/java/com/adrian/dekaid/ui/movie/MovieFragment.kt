@@ -28,7 +28,6 @@ class MovieFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_movie, container, false)
         setHasOptionsMenu(true)
         return view

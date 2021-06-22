@@ -95,29 +95,4 @@ class DetailViewModelTest {
         viewModel.setFavoriteShow((show.value as Resource.Success<ShowEntity>).data as ShowEntity, true)
         verify(movieRepository).setFavoriteShow((show.value as Resource.Success<ShowEntity>).data as ShowEntity, true)
     }
-
-//
-//    @Test
-//    fun getShowDetail() {
-//        val showDetail = MutableLiveData<MovieData>()
-//        showDetail.value = dummyShow
-//
-//        `when`(movieRepository.loadDetailShow(showId)).thenReturn(showDetail)
-//        viewModel.getMovie(showId, TV_SHOW)
-//        val detailData = viewModel.getMovieDetail().value as MovieData
-//        verify(movieRepository).loadDetailShow(showId)
-//
-//        assertNotNull(detailData)
-//        assertEquals(dummyShow.movieId, detailData.movieId)
-//        assertEquals(dummyShow.movieName, detailData.movieName)
-//        assertEquals(dummyShow.showSeason, detailData.showSeason)
-//        assertEquals(dummyShow.movieVote.toString(), detailData.movieVote.toString())
-//        assertEquals(dummyShow.movieDescription, detailData.movieDescription)
-//        assertEquals(dummyShow.movieFirstAir, detailData.movieFirstAir)
-//        assertEquals(dummyShow.movieImage, detailData.movieImage)
-//        assertEquals(dummyShow.posterLink, detailData.posterLink)
-//
-//        viewModel.getMovieDetail().observeForever(observer)
-//        verify(observer).onChanged(dummyShow)
-//    }
 }

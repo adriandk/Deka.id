@@ -9,7 +9,6 @@ import com.adrian.dekaid.data.source.local.entity.ShowEntity
 
 @Dao
 interface MovieDao {
-    //    Movie
     @RawQuery(observedEntities = [MovieEntity::class])
     fun getMovie(query: SimpleSQLiteQuery): DataSource.Factory<Int, MovieEntity>
 
@@ -25,7 +24,6 @@ interface MovieDao {
     @Update
     fun updateMovie(movie: MovieEntity)
 
-//    Show
     @RawQuery(observedEntities = [ShowEntity::class])
     fun getShow(query: SimpleSQLiteQuery): DataSource.Factory<Int, ShowEntity>
 
